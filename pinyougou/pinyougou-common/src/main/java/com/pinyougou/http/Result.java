@@ -2,12 +2,7 @@ package com.pinyougou.http;
 
 import java.io.Serializable;
 
-/********
- * author:shenkunlin
- * date:2018/9/2 17:42
- * description:深圳黑马
- * version:1.0
- ******/
+
 public class Result implements Serializable {
 
     //响应消息
