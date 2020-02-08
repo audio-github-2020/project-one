@@ -11,7 +11,7 @@
     <modules>
         <module>pinyougou-common</module>
         <module>pinyougou-model</module>
-        <module>pinyougou-dao</module>
+        <module>pinyougou-mapper</module>
         <module>pinyougou-sellergoods</module>
         <module>pinyougou-manage-web</module>
     </modules>
