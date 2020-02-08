@@ -18,6 +18,7 @@
 
     <!-- 集中定义依赖版本号 -->
     <properties>
+        <commons-lang3.version>3.3.2</commons-lang3.version>
         <junit.version>4.12</junit.version>
         <spring.version>4.3.10.RELEASE</spring.version>
         <spring.security.version>4.2.3.RELEASE</spring.security.version>
@@ -32,7 +33,7 @@
         <javax.persistence.version>1.0</javax.persistence.version>
         <fastjson.version>1.2.44</fastjson.version>
         <zookeeper.version>3.4.9</zookeeper.version>
-        <zkclient.version>0.1</zkclient.version>
+        <zkclient.version>0.10</zkclient.version>
         <jedis.version>2.9.0</jedis.version>
         <spring.data.redis.version>1.8.9.RELEASE</spring.data.redis.version>
         <servlet.api.version>2.5</servlet.api.version>
@@ -50,15 +51,25 @@
         <dom4j.version>1.6.1</dom4j.version>
         <xml.apis.version>2.0.2</xml.apis.version>
         <kaptcha.version>2.3.2</kaptcha.version>
+        <aspectj.weaver>1.8.6</aspectj.weaver>
+        <curator-framework.version>4.0.0</curator-framework.version>
+        <aliyun.java.sdk.dysmsapi.version>1.0.0-SNAPSHOT</aliyun.java.sdk.dysmsapi.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
+            <!--阿里大鱼-->
+            <dependency>
+                <groupId>com.aliyun</groupId>
+                <artifactId>aliyun-java-sdk-dysmsapi</artifactId>
+                <version>${aliyun.java.sdk.dysmsapi.version}</version>
+            </dependency>
             <dependency>
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
                 <version>${junit.version}</version>
             </dependency>
+
             <!-- Spring -->
             <dependency>
                 <groupId>org.springframework</groupId>
@@ -105,6 +116,29 @@
                 <artifactId>spring-test</artifactId>
                 <version>${spring.version}</version>
             </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-core</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-aop</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.aspectj</groupId>
+                <artifactId>aspectjrt</artifactId>
+                <version>${aspectj.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.aspectj</groupId>
+                <artifactId>aspectjweaver</artifactId>
+                <version>${aspectj.weaver}</version>
+            </dependency>
             <!-- Mybatis -->
             <dependency>
                 <groupId>org.mybatis</groupId>
@@ -116,13 +150,19 @@
                 <artifactId>mybatis-spring</artifactId>
                 <version>${mybatis.spring.version}</version>
             </dependency>
+            <!-- Apache工具组件 -->
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>${commons-lang3.version}</version>
+            </dependency>
             <!-- 日志 -->
             <dependency>
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-log4j12</artifactId>
                 <version>${slf4j.version}</version>
             </dependency>
-            <!-- dubbo 相关 -->
+            <!--dubbo-->
             <dependency>
                 <groupId>com.alibaba</groupId>
                 <artifactId>dubbo</artifactId>
@@ -132,11 +172,32 @@
                 <groupId>org.apache.zookeeper</groupId>
                 <artifactId>zookeeper</artifactId>
                 <version>${zookeeper.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <artifactId>slf4j-api</artifactId>
+                        <groupId>org.slf4j</groupId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
-                <groupId>com.github.sgroschupf</groupId>
+                <groupId>com.101tec</groupId>
                 <artifactId>zkclient</artifactId>
                 <version>${zkclient.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.curator</groupId>
+                <artifactId>curator-framework</artifactId>
+                <version>${curator-framework.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <artifactId>zookeeper</artifactId>
+                        <groupId>org.apache.zookeeper</groupId>
+                    </exclusion>
+                    <exclusion>
+                        <artifactId>slf4j-api</artifactId>
+                        <groupId>org.slf4j</groupId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <!-- json 的解析 -->
             <dependency>
