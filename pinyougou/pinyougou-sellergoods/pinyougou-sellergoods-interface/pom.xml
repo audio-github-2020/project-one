@@ -11,6 +11,11 @@
 
     <artifactId>pinyougou-sellergoods-interface</artifactId>
     <dependencies>
+        <!--    分页工具    -->
+        <dependency>
+            <groupId>com.github.pagehelper</groupId>
+            <artifactId>pagehelper</artifactId>
+        </dependency>
         <dependency>
             <groupId>com.pinyougou</groupId>
             <artifactId>pinyougou-model</artifactId>
