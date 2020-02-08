@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 public interface BrandMapper extends Mapper<Brand> {
-    List<Brand> queryAll();
+    List<Brand> getAll();
 
     List<Map<String,Object>> selectOptionList();
 }

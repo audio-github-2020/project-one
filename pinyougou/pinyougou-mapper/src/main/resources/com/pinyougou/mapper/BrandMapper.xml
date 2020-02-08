@@ -10,7 +10,7 @@
     <result column="first_char" property="firstChar" jdbcType="VARCHAR" />
   </resultMap>
 
-  <select id="queryAll" resultMap="BaseResultMap">
+  <select id="getAll" resultMap="BaseResultMap">
     SELECT * FROM tb_brand
   </select>
 

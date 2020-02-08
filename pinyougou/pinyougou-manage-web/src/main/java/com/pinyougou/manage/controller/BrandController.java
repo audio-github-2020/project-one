@@ -15,8 +15,8 @@ public class BrandController {
     @Reference
     private BrandService brandService;
 
-    @GetMapping("/findAll")
-    public List<Brand> findAll(){
-        return brandService.queryAll();
+    @GetMapping("/listAll")
+    public List<Brand> getAll(){
+        return brandService.getAll();
     }
 }

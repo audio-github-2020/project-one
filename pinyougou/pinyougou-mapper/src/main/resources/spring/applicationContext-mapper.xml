@@ -64,8 +64,23 @@
 <!--    </bean>-->
 
     <!-- 配置接口扫描包 -->
-    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer"
+
+<!--    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer"-->
+<!--          p:basePackage="com.pinyougou.mapper"-->
+<!--          p:sqlSessionFactoryBeanName="sqlSessionFactory" />-->
+
+
+    <!--集成通用Mapper-->
+    <bean class="tk.mybatis.spring.mapper.MapperScannerConfigurer"
           p:basePackage="com.pinyougou.mapper"
-          p:sqlSessionFactoryBeanName="sqlSessionFactory" />
+          p:sqlSessionFactoryBeanName="sqlSessionFactory">
+        <!--注册通用Mapper,该接口包含通用的增删改查-->
+        <property name="properties">
+            <props>
+                <prop key="mappers">tk.mybatis.mapper.common.Mapper</prop>
+            </props>
+        </property>
+    </bean>
+
 
 </beans>

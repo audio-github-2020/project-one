@@ -15,8 +15,8 @@ public class BrandServiceImpl implements BrandService {
     private BrandMapper brandMapper;
 
     @Override
-    public List<Brand> queryAll() {
-//
-        return brandMapper.queryAll();
+    public List<Brand> getAll() {
+
+        return brandMapper.getAll();
     }
 }
