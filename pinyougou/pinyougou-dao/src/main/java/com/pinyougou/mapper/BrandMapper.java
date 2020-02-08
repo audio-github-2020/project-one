@@ -1,9 +1,9 @@
 package com.pinyougou.mapper;
 
-import com.pinyougou.pojo.TbBrand;
+import com.pinyougou.model.Brand;
 
 import java.util.List;
 
 public interface BrandMapper {
-    public List<TbBrand> queryAll();
+    public List<Brand> queryAll();
 }

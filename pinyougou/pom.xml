@@ -10,7 +10,7 @@
     <version>1.0-SNAPSHOT</version>
     <modules>
         <module>pinyougou-common</module>
-        <module>pinyougou-pojo</module>
+        <module>pinyougou-model</module>
         <module>pinyougou-dao</module>
         <module>pinyougou-sellergoods</module>
         <module>pinyougou-manage-web</module>

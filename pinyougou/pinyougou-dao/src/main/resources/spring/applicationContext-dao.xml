@@ -24,7 +24,7 @@ http://www.springframework.org/schema/context/spring-context.xsd">
         <!-- mybatis 总配置文件 -->
         <property name="configLocation" value="classpath:mybatis/mybatis-config.xml"/>
         <!-- 配置实体类别名 -->
-        <property name="typeAliasesPackage" value="com.pinyougou.pojo"/>
+        <property name="typeAliasesPackage" value="com.pinyougou.model"/>
     </bean>
     <!-- 扫描 mapper -->
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">

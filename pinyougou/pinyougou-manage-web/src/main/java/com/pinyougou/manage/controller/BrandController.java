@@ -1,7 +1,7 @@
 package com.pinyougou.manage.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
-import com.pinyougou.pojo.TbBrand;
+import com.pinyougou.model.Brand;
 import com.pinyougou.sellergoods.service.BrandService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,7 +16,7 @@ public class BrandController {
     private BrandService brandService;
 
     @GetMapping("/findAll")
-    public List<TbBrand> findAll(){
+    public List<Brand> findAll(){
         return brandService.queryAll();
     }
 }

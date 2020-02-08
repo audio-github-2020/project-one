@@ -8,6 +8,6 @@ http://code.alibabatech.com/schema/dubbo
 http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
     <dubbo:protocol name="dubbo" port="20880"/>
     <dubbo:application name="pinyougou-sellergoods-service"/>
-    <dubbo:registry address="zookeeper://192.168.12.129:2181"/>
+    <dubbo:registry address="zookeeper://192.168.12.128:2181"/>
     <dubbo:annotation package="com.pinyougou.sellergoods.service.impl"/>
 </beans>
