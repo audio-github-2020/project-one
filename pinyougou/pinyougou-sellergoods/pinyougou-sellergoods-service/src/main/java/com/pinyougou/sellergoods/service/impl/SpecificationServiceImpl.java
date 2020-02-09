@@ -8,8 +8,8 @@ import com.pinyougou.model.Specification;
 import com.pinyougou.model.SpecificationOption;
 import com.pinyougou.sellergoods.service.SpecificationService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import tk.mybatis.mapper.entity.Example;
+
 import java.util.List;
 import java.util.Map;
 
@@ -60,7 +60,7 @@ public class SpecificationServiceImpl implements SpecificationService {
         //将规格信息增加到规格表
         int acount = specificationMapper.insertSelective(specification);
 
-        //获取规格信息的主键c_id
+        //在JavaBean的对象中增加这个注解，可以获取规格信息的主键c_id
         //@GeneratedValue(strategy = GenerationType.IDENTITY)
 
         //将规格选项增加到规格选项表

@@ -1,24 +1,38 @@
-app.service('brandService', function ($http) {
-    //分页查询所有
-    this.findAll = function (page, size, searchEntity) {
-        //执行查询，获取返回结果
-        return $http.post('/brand/list.shtml?page=' + page + '&size=' + size, searchEntity);
-    }
-    //增加
-    this.add = function (entity) {
-        return $http.post('/brand/add.shtml', entity);
-    }
-    //修改
-    this.update = function (entity) {
-        return $http.post('/brand/modify.shtml', entity);
-    }
-    //删除
-    this.delete = function (ids) {
-        return $http.post('/brand/delete.shtml', ids);
+/***
+ * 创建一个服务层
+ * 抽取发送请求的一部分代码
+ * */
+app.service("brandService",function($http){
+
+    //查询列表
+    this.findAll=function(page,size,searchEntity){
+        return $http.post("/brand/list.shtml?page="+page+"&size="+size,searchEntity);
     }
 
-    //根据id查询
-    this.findOne = function (id) {
-        return $http.get('/brand' + id + '.shtml');
+
+    //查询所有
+    this.findBrandList=function(){
+        return $http.get("/brand/list.shtml");
     }
+
+    //增加Brand
+    this.add=function(entity){
+        return $http.post("/brand/add.shtml",entity);
+    }
+
+    //保存
+    this.update=function(entity){
+        return $http.post("/brand/update.shtml",entity);
+    }
+
+    //根据ID查询
+    this.findOne=function(id){
+        return $http.get("/brand/"+id+".shtml");
+    }
+
+    //批量删除
+    this.delete=function(ids){
+        return $http.post("/brand/delete.shtml",ids);
+    }
+
 });
