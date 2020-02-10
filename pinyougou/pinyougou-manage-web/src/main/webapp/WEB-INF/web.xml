@@ -22,13 +22,33 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<filter-name>CharacterEncodingFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
-	<!--//End 编码过滤器 -->
+
+
+	<!--SpringSecurity-->
+<!--	通过XML文件配置时才需要下面这部分代码	-->
+<!--	<context-param>-->
+<!--		<param-name>contextConfigLocation</param-name>-->
+<!--		<param-value>classpath:spring/spring-security.xml</param-value>-->
+<!--	</context-param>-->
+<!--	<listener>-->
+<!--		<listener-class>-->
+<!--			org.springframework.web.context.ContextLoaderListener-->
+<!--		</listener-class>-->
+<!--	</listener>-->
+	<!--委托过滤器:springSecurityFilterChain-->
+	<filter>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
 
 	<!-- SpringMVC -->
 	<servlet>
 		<servlet-name>springmvc</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-
 		<!-- 指定加载的配置文件 ，通过参数 contextConfigLocation 加载-->
 		<init-param>
 			<param-name>contextConfigLocation</param-name>
@@ -42,24 +62,6 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<url-pattern>*.shtml</url-pattern>
 	</servlet-mapping>
 
-	<context-param>
-		<param-name>contextConfigLocation</param-name>
-		<param-value>classpath:spring/spring-security.xml</param-value>
-	</context-param>
-	<listener>
-		<listener-class>
-			org.springframework.web.context.ContextLoaderListener
-		</listener-class>
-	</listener>
-
-	<filter>
-		<filter-name>springSecurityFilterChain</filter-name>
-		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
-	</filter>
-	<filter-mapping>
-		<filter-name>springSecurityFilterChain</filter-name>
-		<url-pattern>/*</url-pattern>
-	</filter-mapping>
 
 
 </web-app>

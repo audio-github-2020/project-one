@@ -6,8 +6,8 @@ import com.pinyougou.mapper.SellerMapper;
 import com.pinyougou.model.Seller;
 import com.pinyougou.sellergoods.service.SellerService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import tk.mybatis.mapper.entity.Example;
+
 import java.util.List;
 
 @Service
@@ -62,7 +62,7 @@ public class SellerServiceImpl implements SellerService {
      * @return
      */
     @Override
-    public Seller getOneById(Long id) {
+    public Seller getOneById(String id) {
         return sellerMapper.selectByPrimaryKey(id);
     }
 

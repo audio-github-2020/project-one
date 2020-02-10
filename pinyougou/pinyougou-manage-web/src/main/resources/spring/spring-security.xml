@@ -12,12 +12,13 @@
 
     <http pattern="/login.html" security="none"></http>
     <http pattern="/login_error.html" security="none"></http>
-    <http pattern="/css/**" security="none"></http>
-    <http pattern="/img/**" security="none"></http>
-    <http pattern="/css/**" security="none"></http>
-    <http pattern="/js/**" security="none"></http>
-    <http pattern="/plugins/**" security="none"></http>
-
+    <!--以下注释一旦取消，就无法正常运行，或与/**有关，之后解决-->
+<!--    <http pattern="/img/**" security="none"></http>-->
+<!--    <http pattern="/css/**" security="none"></http>-->
+<!--    <http pattern="/img/**" security="none"></http>-->
+<!--    <http pattern="/css/**" security="none"></http>-->
+<!--    <http pattern="/js/**" security="none"></http>-->
+<!--    <http pattern="/plugins/**" security="none"></http>-->
 
     <!-- 页面的拦截规则    use-expressions:是否启动SPEL表达式 默认是true -->
     <http>
@@ -32,6 +33,8 @@
         <headers>
             <frame-options policy="SAMEORIGIN"/>
         </headers>
+    <!--  配置退出      -->
+    <logout/>
     </http>
 
     <!-- 认证管理器 -->
