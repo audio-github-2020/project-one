@@ -116,4 +116,31 @@ public class SellerController {
     public List<Seller> list() {
         return sellerService.getAll();
     }
+
+    /****
+     * http://localhost:9001/seller/status/xiaohong/1.shtml  审核通过
+     * http://localhost:9001/seller/status/xiaohong/2.shtml  审核不通过
+     * http://localhost:9001/seller/status/xiaohong/3.shtml  关闭
+     * @return
+     */
+    @RequestMapping(value = "/status/{sellerid}/{status}",method = RequestMethod.GET)
+    public Result updateStatus(@PathVariable(value = "sellerid")String sellerid,
+                               @PathVariable(value = "status")String status){
+        try {
+            //修改商户信息
+            Seller seller = new Seller();
+            seller.setSellerId(sellerid);
+            seller.setStatus(status);
+
+            //修改
+            int mcount = sellerService.updateSellerById(seller);
+
+            if(mcount>0){
+                //修改成功
+                return  new Result(true);
+            }
+        } catch (Exception e) {
+        }
+        return new Result(false,"修改状态失败！");
+    }
 }

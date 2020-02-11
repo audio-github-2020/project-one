@@ -43,7 +43,7 @@ app.controller("sellerController",function($scope,$http,$controller,sellerServic
 
     //根据ID查询信息
     $scope.getById=function(id){
-        sellerService.findOne(id).success(function(response){
+        sellerService.getById(id).success(function(response){
             //将后台的数据绑定到前台
             $scope.entity=response;
         });
@@ -60,4 +60,17 @@ app.controller("sellerController",function($scope,$http,$controller,sellerServic
             }
         });
     }
+
+    //更改状态
+    $scope.updateStatus=function (sellerId,status) {
+        sellerService.updateStatus(sellerId,status).success(function (response) {
+            //判断删除状态
+            if(response.success){
+                $scope.reloadList();
+            }else{
+                alert(response.message);
+            }
+        })
+    }
+
 });

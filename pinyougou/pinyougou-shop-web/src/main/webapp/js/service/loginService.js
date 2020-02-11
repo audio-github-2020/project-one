@@ -8,4 +8,9 @@ app.service('loginService',function ($http) {
         return $http.post('/login?username='+username+'&password='+password);
     }
 
+    //向后台获取名称
+    this.showName=function () {
+        return $http.get('/login/name.shtml');
+    }
+
 })

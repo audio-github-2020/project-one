@@ -20,7 +20,7 @@ app.service("sellerService",function($http){
     }
 
     //根据ID查询
-    this.findOne=function(id){
+    this.getById=function(id){
         return $http.get("/seller/"+id+".shtml");
     }
 
@@ -28,5 +28,12 @@ app.service("sellerService",function($http){
     this.delete=function(ids){
         return $http.post("/seller/delete.shtml",ids);
     }
+
+    //更改状态
+    this.updateStatus=function (sellerId,status) {
+        // @RequestMapping(value = "/status/{sellerid}/{status}")
+        return $http.get('/seller/status/'+sellerId+'/'+status+'.shtml');
+    }
+
 
 });

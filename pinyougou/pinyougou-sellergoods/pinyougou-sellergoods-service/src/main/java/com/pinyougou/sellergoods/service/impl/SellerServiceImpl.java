@@ -52,6 +52,8 @@ public class SellerServiceImpl implements SellerService {
      */
     @Override
     public int add(Seller seller) {
+        //初始化状态为“0”，即为未审核状态
+        seller.setStatus("0");
         return sellerMapper.insertSelective(seller);
     }
 

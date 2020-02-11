@@ -39,6 +39,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         web.ignoring().antMatchers("/js/**");
         web.ignoring().antMatchers("/plugins/**");
         web.ignoring().antMatchers("/*.html");
+        //增加商家的地址应该放行
         web.ignoring().antMatchers("/seller/add.shtml");
     }
 
@@ -115,8 +116,11 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
 
+
+    //不用在意这个红色报错提示，因为这个对象的包是从dubbo获取的，IDEA暂时无法知道这个对象能够成功注入
     @Autowired
     private UserDetailsService userDetailsService;
+
 
     @Autowired
     private BCryptPasswordEncoder encoder;
@@ -130,7 +134,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         //auth.inMemoryAuthentication().withUser("admin").password("123456").roles("ADMIN");
 
         //自定义授权认证类
-        auth.userDetailsService(userDetailsService)
-                .passwordEncoder(encoder);  //指定加密对象
+        
+        auth.userDetailsService(userDetailsService).passwordEncoder(encoder);  //指定加密对象
     }
 }

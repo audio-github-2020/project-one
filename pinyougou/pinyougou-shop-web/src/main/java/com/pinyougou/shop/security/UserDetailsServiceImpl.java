@@ -3,7 +3,6 @@ package com.pinyougou.shop.security;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.pinyougou.model.Seller;
 import com.pinyougou.sellergoods.service.SellerService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -43,7 +42,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             //授权信息-一般是查询出来
             List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
             authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
-            //构建一个User
+            //构建一个User，如果用户名拥有这个用户名，也拥有这个密码，就给他这个授权
             return new User(username,seller.getPassword(),authorities);
         }
 

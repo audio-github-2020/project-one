@@ -29,4 +29,5 @@ app.service("sellerService",function($http){
         return $http.post("/seller/delete.shtml",ids);
     }
 
+
 });
