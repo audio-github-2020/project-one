@@ -3,7 +3,7 @@ app.service('uploadService',function ($http) {
 
     //上传文件
     this.uploadFile = function(){
-        //针对某表单的操作方式
+        //如果有多个表单，可以选定某个特定表单，然后做特定操作
        //var formxiaohong = document.querySelector("xiaohong")
 
         //H5支持的表单打包,FormData对象可以组装一组用 XMLHttpRequest发送请求的键/值对。它可以更灵活方便的发送表单数据

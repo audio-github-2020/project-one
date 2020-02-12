@@ -6,9 +6,8 @@ import com.pinyougou.model.Goods;
 import com.pinyougou.sellergoods.service.GoodsService;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-import java.util.HashMap;
+
 import java.util.List;
-import java.util.Map;
 @RestController
 @RequestMapping(value = "/goods")
 public class GoodsController {
@@ -81,12 +80,10 @@ public class GoodsController {
     @RequestMapping(value = "/add",method = RequestMethod.POST)
     public Result add(@RequestBody Goods goods){
         try {
-            //获取商家登录信息
+            //获取商家ID
             String sellerId = SecurityContextHolder.getContext().getAuthentication().getName();
-            goods.setSellerId(sellerId);
-            //设置商品的审核状态
+            //设置商品审核状态
             goods.setAuditStatus("0");
-
             //执行增加
             int acount = goodsService.add(goods);
 
@@ -94,10 +91,30 @@ public class GoodsController {
                 //增加成功
                return new Result(true,"增加成功");
             }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
         return new Result(false,"增加失败");
+
+//        try {
+//            //获取商家登录信息
+//            String sellerId = SecurityContextHolder.getContext().getAuthentication().getName();
+//            goods.setSellerId(sellerId);
+//            //设置商品的审核状态
+//            goods.setAuditStatus("0");
+//
+//            //执行增加
+//            int acount = goodsService.add(goods);
+//
+//            if(acount>0){
+//                //增加成功
+//               return new Result(true,"增加成功");
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        return new Result(false,"增加失败");
     }
 
 

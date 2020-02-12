@@ -39,7 +39,7 @@ public class UploadController {
         String[] uploads = UploadUtil.upload("classpath:config/tracker.conf", bytes, suffix);
 
         //拼接的图片访问地址
-        String url = "http://192.168.211.128/"+uploads[0]+"/"+uploads[1];
+        String url = "http://192.168.12.128/"+uploads[0]+"/"+uploads[1];
         return new Result(true,url);
     }
 

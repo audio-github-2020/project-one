@@ -14,7 +14,7 @@ public class Goods implements Serializable {
     private GoodsDesc goodsDesc;
 
     /***
-     * tb_imte  一对多关系
+     * tb_item  一对多关系
      */
     private List<Item> items;
 

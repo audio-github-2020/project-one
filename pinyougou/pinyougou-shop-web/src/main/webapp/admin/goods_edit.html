@@ -29,6 +29,14 @@
 	<script src="/js/controller/baseController.js"></script>
 	<script src="/js/controller/goodsController.js"></script>
 
+	<script src="/plugins/angularjs/angular.min.js"></script>
+
+	<script src="/js/base.js"></script>
+	<script src="/js/service/goodsService.js"></script>
+	<script src="/js/service/uploadService.js"></script>
+	<script src="/js/controller/baseController.js"></script>
+	<script src="/js/controller/goodsController.js"></script>
+
 </head>
 
 <body ng-app="pinyougou" ng-controller="goodsController" class="hold-transition skin-red sidebar-mini" >
@@ -44,7 +52,7 @@
                         <!--tab头-->
                         <ul class="nav nav-tabs">                       		
                             <li class="active">
-                                <a href="#home" data-toggle="tab">商品基本信息</a>                                                        
+                                <a href="#home" data-toggle="tab">商品基本信息</a>
                             </li>   
                             <li >
                                 <a href="#pic_upload" data-toggle="tab">商品图片</a>                                                        
@@ -90,7 +98,7 @@
 									
 		                           <div class="col-md-2 title">商品名称</div>
 		                           <div class="col-md-10 data">
-		                               <input type="text" ng-model="entity.goodsName" class="form-control"    placeholder="商品名称" value="">
+		                               <input  type="text" ng-model="entity.goodsName" class="form-control"    placeholder="商品名称" value="">
 		                           </div>
 		                           
 		                           <div class="col-md-2 title">品牌</div>
