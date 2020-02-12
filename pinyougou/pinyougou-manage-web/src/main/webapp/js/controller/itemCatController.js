@@ -7,6 +7,33 @@ app.controller("itemCatController",function($scope,$http,$controller,itemCatServ
     //继承父控制器
     $controller("baseController",{$scope:$scope});
 
+    //定义3个变量，用于存储面包屑内容
+    $scope.entity_1={"name":"顶级分类","id":0};
+    $scope.entity_2=null;
+    $scope.entity_3=null;
+
+    //定义一个参数，记录当前属于分类级别
+    $scope.grand=1;
+
+    //定义一个grand+1的方法
+    $scope.loadChild=function(itemCat){
+        $scope.grand+=1;
+        if($scope.grand==2){
+            $scope.entity_2=itemCat;
+        }else if($scope.grand==3){
+            $scope.entity_3=itemCat;
+        }
+    }
+
+
+
+    //根据父id查询所有子类
+    $scope.findByParentId=function(id){
+        itemCatService.findByParentId(id).success(function (response) {
+            $scope.list=response;
+        });
+    }
+
     //获取所有的ItemCat信息
     $scope.getPage=function(page,size){
         //发送请求获取数据

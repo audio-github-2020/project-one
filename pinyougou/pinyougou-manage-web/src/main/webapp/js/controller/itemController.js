@@ -7,6 +7,8 @@ app.controller("itemController",function($scope,$http,$controller,itemService){
     //继承父控制器
     $controller("baseController",{$scope:$scope});
 
+
+
     //获取所有的Item信息
     $scope.getPage=function(page,size){
         //发送请求获取数据

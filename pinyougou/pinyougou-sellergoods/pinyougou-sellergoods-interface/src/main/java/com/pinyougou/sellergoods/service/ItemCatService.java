@@ -46,4 +46,11 @@ public interface ItemCatService {
      * @return
      */
     int deleteByIds(List<Long> ids);
+
+    /**
+     * 查询顶级分类列表
+     * @param id
+     * @return
+     */
+    List<ItemCat> findByParentId(long id);
 }

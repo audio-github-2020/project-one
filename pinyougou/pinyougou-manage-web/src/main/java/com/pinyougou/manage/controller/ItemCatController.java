@@ -5,9 +5,8 @@ import com.pinyougou.http.Result;
 import com.pinyougou.model.ItemCat;
 import com.pinyougou.sellergoods.service.ItemCatService;
 import org.springframework.web.bind.annotation.*;
-import java.util.HashMap;
+
 import java.util.List;
-import java.util.Map;
 @RestController
 @RequestMapping(value = "/itemCat")
 public class ItemCatController {
@@ -15,6 +14,11 @@ public class ItemCatController {
     @Reference
     private ItemCatService itemCatService;
 
+    //  @RequestMapping(value = "/{id}",method = RequestMethod.GET)
+    @RequestMapping(value="/parent/{id}")
+    public List<ItemCat> findByParentId(@PathVariable(value="id") long id){
+        return itemCatService.findByParentId(id);
+    }
 
     /***
      * 根据ID批量删除

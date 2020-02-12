@@ -6,8 +6,8 @@ import com.pinyougou.mapper.ItemCatMapper;
 import com.pinyougou.model.ItemCat;
 import com.pinyougou.sellergoods.service.ItemCatService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import tk.mybatis.mapper.entity.Example;
+
 import java.util.List;
 
 @Service
@@ -92,5 +92,17 @@ public class ItemCatServiceImpl implements ItemCatService {
         //所需的SQL语句类似 delete from tb_itemCat where id in(1,2,5,6)
         criteria.andIn("id",ids);
         return itemCatMapper.deleteByExample(example);
+    }
+
+    /**
+     *根据父id查询所有子类
+     * @param id
+     * @return
+     */
+    @Override
+    public List<ItemCat> findByParentId(long id) {
+        ItemCat itemCat = new ItemCat();
+        itemCat.setParentId(id);
+        return itemCatMapper.select(itemCat);
     }
 }

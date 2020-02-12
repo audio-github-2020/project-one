@@ -24,6 +24,11 @@ app.service("itemCatService",function($http){
         return $http.get("/itemCat/"+id+".shtml");
     }
 
+    //根据父id查询
+    this.findByParentId=function (id) {
+        return $http.get("/itemCat/parent/"+id+".shtml");
+    }
+
     //批量删除
     this.delete=function(ids){
         return $http.post("/itemCat/delete.shtml",ids);
