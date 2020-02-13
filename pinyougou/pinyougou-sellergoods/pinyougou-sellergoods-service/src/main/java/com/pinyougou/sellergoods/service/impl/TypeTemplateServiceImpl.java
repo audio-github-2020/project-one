@@ -1,14 +1,18 @@
 package com.pinyougou.sellergoods.service.impl;
 import com.alibaba.dubbo.config.annotation.Service;
+import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.pinyougou.mapper.SpecificationOptionMapper;
 import com.pinyougou.mapper.TypeTemplateMapper;
+import com.pinyougou.model.SpecificationOption;
 import com.pinyougou.model.TypeTemplate;
 import com.pinyougou.sellergoods.service.TypeTemplateService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import tk.mybatis.mapper.entity.Example;
+
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class TypeTemplateServiceImpl implements TypeTemplateService {
@@ -92,5 +96,28 @@ public class TypeTemplateServiceImpl implements TypeTemplateService {
         //所需的SQL语句类似 delete from tb_typeTemplate where id in(1,2,5,6)
         criteria.andIn("id",ids);
         return typeTemplateMapper.deleteByExample(example);
+    }
+
+    @Autowired
+    private SpecificationOptionMapper specificationOptionMapper;
+    @Override
+    public List<Map> getOptionsByTypeId(long id) {
+        //先查询出模板中的规格信息"id":32,"text":"机身内存"
+        TypeTemplate template=typeTemplateMapper.selectByPrimaryKey(id);
+
+        //将spec_id转成JSON，并循环
+        List<Map> dataMap= JSON.parseArray(template.getSpecIds(),Map.class);
+        for (Map map : dataMap) {
+            long spec_id= Long.parseLong(map.get("id").toString());
+            //根据spec_id的json值中的id去数据库tb_specification_option查询规格选项
+            //select * from tb_specification_option where spec_id=?
+            SpecificationOption specificationOption = new SpecificationOption();
+            specificationOption.setSpecId(spec_id);
+            List<SpecificationOption> options = specificationOptionMapper.select(specificationOption);
+
+            //组装JSON数据格式
+            map.put("options",options);
+        }
+        return dataMap;
     }
 }

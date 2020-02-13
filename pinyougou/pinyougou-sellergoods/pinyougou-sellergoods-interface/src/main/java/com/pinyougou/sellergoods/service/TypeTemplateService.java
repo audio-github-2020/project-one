@@ -2,6 +2,7 @@ package com.pinyougou.sellergoods.service;
 import com.github.pagehelper.PageInfo;
 import com.pinyougou.model.TypeTemplate;
 import java.util.List;
+import java.util.Map;
 
 public interface TypeTemplateService {
 
@@ -46,4 +47,6 @@ public interface TypeTemplateService {
      * @return
      */
     int deleteByIds(List<Long> ids);
+
+    List<Map> getOptionsByTypeId(long id);
 }

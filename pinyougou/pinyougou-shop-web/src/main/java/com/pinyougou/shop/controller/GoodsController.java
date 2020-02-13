@@ -97,24 +97,6 @@ public class GoodsController {
         }
         return new Result(false,"增加失败");
 
-//        try {
-//            //获取商家登录信息
-//            String sellerId = SecurityContextHolder.getContext().getAuthentication().getName();
-//            goods.setSellerId(sellerId);
-//            //设置商品的审核状态
-//            goods.setAuditStatus("0");
-//
-//            //执行增加
-//            int acount = goodsService.add(goods);
-//
-//            if(acount>0){
-//                //增加成功
-//               return new Result(true,"增加成功");
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        return new Result(false,"增加失败");
     }
 
 
