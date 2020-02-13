@@ -42,6 +42,4 @@ public class UploadController {
         String url = "http://192.168.12.128/"+uploads[0]+"/"+uploads[1];
         return new Result(true,url);
     }
-
-
 }

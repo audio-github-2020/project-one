@@ -2,7 +2,7 @@
  * 定义一个控制层 controller
  * 发送HTTP请求从后台获取数据
  ****/
-app.controller("goodsController", function ($scope, $http, $controller, goodsService, uploadService) {
+app.controller("goodsController", function ($scope, $http, $controller, goodsService, uploadService,itemCatService) {
 
     //继承父控制器
     $controller("baseController", {$scope: $scope});
@@ -12,6 +12,29 @@ app.controller("goodsController", function ($scope, $http, $controller, goodsSer
     //$scope.entity.goodsDesc={itemImages:[]};
     $scope.entity = {goodsDesc: {itemImages: []}};
 
+    //查询第一级分类
+    $scope.findItemCat1List=function(id){
+        itemCatService.findByParentId(id).success(function (response) {
+            $scope.itemCat1List=response;
+        });
+        //清空二级、三级分类
+        $scope.itemCat2List=null;
+        $scope.itemCat3List=null;
+    }
+    //查询第二级分类
+    $scope.findItemCat2List=function(id){
+        itemCatService.findByParentId(id).success(function (response) {
+            $scope.itemCat2List=response;
+        });
+        //清空三级分类
+        $scope.itemCat3List=null;
+    }
+    //查询第三级分类
+    $scope.findItemCat3List=function(id){
+        itemCatService.findByParentId(id).success(function (response) {
+            $scope.itemCat3List=response;
+        });
+    }
 
     //移除一张图片
     $scope.remove_image_entity = function (index) {
