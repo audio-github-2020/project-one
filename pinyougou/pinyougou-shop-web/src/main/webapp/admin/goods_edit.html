@@ -228,13 +228,14 @@
                     <div class="row data-type">
                         <div class="col-md-2 title">是否启用规格</div>
                         <div class="col-md-10 data">
-                            <input type="checkbox">
+                            <input ng-model="entity.isEnableSpec" ng-true-value="1"
+                                   ng-false-value="0" type="checkbox">
                         </div>
                     </div>
                     <p>
 
-                    <div>
-                        <div class="row data-type">
+                    <div ng-if="entity.isEnableSpec==1">
+                        <div class="row data-type" >
 
                             <div ng-repeat="spec in specList">
                                 <div class="col-md-2 title">{{spec.text}}</div>

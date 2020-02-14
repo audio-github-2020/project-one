@@ -96,10 +96,7 @@ public class GoodsServiceImpl implements GoodsService {
 
 
         //如果启用了规格，则批量增加SKU  item
-        String s=goods.getIsEnableSpec();
-        boolean f=s.equals("1");
-//        boolean ff=
-        if(f){
+        if(goods.getIsEnableSpec().equals("1")){
             //增加SKU
             for (Item item : goods.getItems()) {
                 //标题  华为荣耀4 16G  联通3G
@@ -153,10 +150,10 @@ public class GoodsServiceImpl implements GoodsService {
         // [{"color":"白色","url":"http://192.168.25.133/group1/M00/00/00/wKgZhVmNXEWAWuHOAAjlKdWCzvg949.jpg"},
         // {"color":"黑色","url":"http://192.168.25.133/group1/M00/00/00/wKgZhVmNXEuAB_ujAAETwD7A1Is158.jpg"},
         // {"color":"蓝色","url":"http://192.168.25.133/group1/M00/00/00/wKgZhVmNXFWANtjTAAFa4hmtWek619.jpg"}]
-        String goodsDescitemimages = goods.getGoodsDesc().getItemImages();
-        List<Map> imagesMap = JSON.parseArray(goodsDescitemimages,Map.class);
-        String imageimage = imagesMap.get(0).get("url").toString();
-        item.setImage(imageimage);
+//        String goodsDescitemimages = goods.getGoodsDesc().getItemImages();
+//        List<Map> imagesMap = JSON.parseArray(goodsDescitemimages,Map.class);
+//        String imageimage = imagesMap.get(0).get("url").toString();
+//        item.setImage(imageimage);
 
         //分类ID
         item.setCategoryid(goods.getCategory3Id());

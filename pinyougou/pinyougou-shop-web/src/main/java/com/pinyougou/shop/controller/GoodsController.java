@@ -82,6 +82,7 @@ public class GoodsController {
         try {
             //获取商家ID
             String sellerId = SecurityContextHolder.getContext().getAuthentication().getName();
+            goods.setSellerId(sellerId);
             //设置商品审核状态
             goods.setAuditStatus("0");
             //执行增加
