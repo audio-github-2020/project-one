@@ -7,6 +7,7 @@ import com.github.pagehelper.PageInfo;
 import com.pinyougou.mapper.*;
 import com.pinyougou.model.*;
 import com.pinyougou.sellergoods.service.GoodsService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import tk.mybatis.mapper.entity.Example;
 
@@ -21,7 +22,7 @@ public class GoodsServiceImpl implements GoodsService {
     private GoodsMapper goodsMapper;
 
     @Autowired
-    private  GoodsDescMapper goodsDescMapper;
+    private GoodsDescMapper goodsDescMapper;
 
     @Autowired
     private ItemCatMapper itemCatMapper;
@@ -35,16 +36,15 @@ public class GoodsServiceImpl implements GoodsService {
     @Autowired
     private ItemMapper itemMapper;
 
-
     /**
-	 * 返回Goods全部列表
-	 * @return
-	 */
-	@Override
-    public List<Goods> getAll(){
+     * 返回Goods全部列表
+     *
+     * @return
+     */
+    @Override
+    public List<Goods> getAll() {
         return goodsMapper.selectAll();
     }
-
 
     /***
      * 分页返回Goods列表
@@ -52,19 +52,33 @@ public class GoodsServiceImpl implements GoodsService {
      * @param pageSize
      * @return
      */
-	@Override
-    public PageInfo<Goods> getAll(Goods goods,int pageNum, int pageSize) {
+    @Override
+    public PageInfo<Goods> getAll(Goods goods, int pageNum, int pageSize) {
         //执行分页
-        PageHelper.startPage(pageNum,pageSize);
-       
+        PageHelper.startPage(pageNum, pageSize);
+        //条件查询实现
+        Example example = new Example(Goods.class);
+        Example.Criteria criteria = example.createCriteria();
+
+        if (goods != null) {
+            //商家sellerID查询
+            if (StringUtils.isNotBlank(goods.getSellerId())) {
+                criteria.andEqualTo("sellerId", goods.getSellerId());
+            }
+            //状态查询
+            if (StringUtils.isNotBlank(goods.getAuditStatus())) {
+                criteria.andEqualTo("auditStatus", goods.getAuditStatus());
+            }
+            //模糊查询 select * from tb_goods where sellerId=? and auditStatus=? and goodsName like '%小红%'
+            if (StringUtils.isNotBlank(goods.getGoodsName())) {
+                criteria.andLike("auditStatus", "%" + goods.getGoodsName() + "%");
+            }
+        }
         //执行查询
-        List<Goods> all = goodsMapper.select(goods);
+        List<Goods> all = goodsMapper.selectByExample(example);
         PageInfo<Goods> pageInfo = new PageInfo<Goods>(all);
         return pageInfo;
     }
-
-
-
 
     /***
      * 增加Goods信息
@@ -81,7 +95,13 @@ public class GoodsServiceImpl implements GoodsService {
         GoodsDesc goodsDesc = goods.getGoodsDesc();
         goodsDesc.setGoodsId(goods.getId());
         goodsDescMapper.insertSelective(goodsDesc);
+        addItems(goods);
 
+        return acount;
+    }
+
+    //增加商品items
+    public void addItems(Goods goods) {
         //category
         ItemCat itemCat = itemCatMapper.selectByPrimaryKey(goods.getCategory3Id());
 
@@ -94,22 +114,21 @@ public class GoodsServiceImpl implements GoodsService {
         //当前时间
         Date now = new Date();
 
-
         //如果启用了规格，则批量增加SKU  item
-        if(goods.getIsEnableSpec().equals("1")){
+        if (goods.getIsEnableSpec().equals("1")) {
             //增加SKU
             for (Item item : goods.getItems()) {
                 //标题  华为荣耀4 16G  联通3G
-                String title ="";
+                String title = "";
 
                 //获取goods的名称
                 title = goods.getGoodsName();
 
                 //规格属性   {"机身内存":"16G","网络":"联通3G"}
-                Map<String,String> specMap = JSON.parseObject(item.getSpec(),Map.class);
+                Map<String, String> specMap = JSON.parseObject(item.getSpec(), Map.class);
                 for (Map.Entry<String, String> entry : specMap.entrySet()) {
                     //标题  华为荣耀4 16G  联通3G
-                    title+="  "+entry.getValue().toString();
+                    title += "  " + entry.getValue().toString();
                 }
                 item.setTitle(title);
 
@@ -123,7 +142,7 @@ public class GoodsServiceImpl implements GoodsService {
                 //增加到数据库
                 itemMapper.insertSelective(item);
             }
-        }else{
+        } else {
             Item item = new Item();
             //获取goods的名称
             String goodsName = goods.getGoodsName();
@@ -140,8 +159,6 @@ public class GoodsServiceImpl implements GoodsService {
             //增加到数据库
             itemMapper.insertSelective(item);
         }
-
-        return acount;
     }
 
     //商品信息初始化
@@ -177,7 +194,6 @@ public class GoodsServiceImpl implements GoodsService {
         item.setSeller(seller.getName());
     }
 
-
     /***
      * 根据ID查询Goods信息
      * @param id
@@ -185,9 +201,18 @@ public class GoodsServiceImpl implements GoodsService {
      */
     @Override
     public Goods getOneById(Long id) {
-        return goodsMapper.selectByPrimaryKey(id);
-    }
+        //在修改功能中，需要查询Goods、GoodsDesc、List<Item>
+        Goods goods = goodsMapper.selectByPrimaryKey(id);
 
+        GoodsDesc goodsDesc = goodsDescMapper.selectByPrimaryKey(id);
+        goods.setGoodsDesc(goodsDesc);
+
+        Item item = new Item();
+        item.setGoodsId(id);
+        List<Item> items = itemMapper.select(item);
+        goods.setItems(items);
+        return goods;
+    }
 
     /***
      * 根据ID修改Goods信息
@@ -196,9 +221,20 @@ public class GoodsServiceImpl implements GoodsService {
      */
     @Override
     public int updateGoodsById(Goods goods) {
+        //修改Goods,修改之后，状态应该变为待审核
+        goods.setAuditStatus("0");
+        int mcount = goodsMapper.updateByPrimaryKeySelective(goods);
+        //修改GoodsDesc
+        goodsDescMapper.updateByPrimaryKeySelective(goods.getGoodsDesc());
+        //删除items
+        Item item = new Item();
+        item.setGoodsId(goods.getId());
+        itemMapper.delete(item);
+        //新增items
+        goods.getItems();
+        addItems(goods);
         return goodsMapper.updateByPrimaryKeySelective(goods);
     }
-
 
     /***
      * 根据ID批量删除Goods信息
@@ -212,7 +248,7 @@ public class GoodsServiceImpl implements GoodsService {
         Example.Criteria criteria = example.createCriteria();
 
         //所需的SQL语句类似 delete from tb_goods where id in(1,2,5,6)
-        criteria.andIn("id",ids);
+        criteria.andIn("id", ids);
         return goodsMapper.deleteByExample(example);
     }
 }

@@ -5,7 +5,7 @@
 app.service("typeTemplateService",function($http){
     //查询规格选项
     //"/options/{id}"
-    this.getOptionByTypeId=function (id) {
+    this.getOptionsByTypeId=function (id) {
         return $http.get("/typeTemplate/options/"+id+".shtml");
     }
 
