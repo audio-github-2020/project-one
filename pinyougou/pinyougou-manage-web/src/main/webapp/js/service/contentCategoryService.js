@@ -3,6 +3,15 @@
  * 抽取发送请求的一部分代码
  * */
 app.service("contentCategoryService",function($http){
+    //修改状态
+    this.updateStatus=function (ids,status) {
+        return $http.post("/contentCategory/update/status.shtml?status="+status,ids);
+    }
+
+    //查询列表，不分页
+    this.findAllList=function(page,size,searchEntity){
+        return $http.get("/contentCategory/list.shtml");
+    }
 
     //查询列表
     this.findAll=function(page,size,searchEntity){

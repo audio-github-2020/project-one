@@ -14,6 +14,8 @@
         <module>pinyougou-mapper</module>
         <module>pinyougou-sellergoods</module>
         <module>pinyougou-manage-web</module>
+        <module>pinyougou-content</module>
+        <module>pinyougou-portal-web</module>
     </modules>
 
     <!-- 集中定义依赖版本号 -->
@@ -36,6 +38,7 @@
         <zookeeper.version>3.4.9</zookeeper.version>
         <zkclient.version>0.10</zkclient.version>
         <jedis.version>2.9.0</jedis.version>
+
         <spring.data.redis.version>1.8.9.RELEASE</spring.data.redis.version>
         <servlet.api.version>2.5</servlet.api.version>
         <fastdfs.version>1.2</fastdfs.version>
@@ -52,6 +55,7 @@
         <dom4j.version>1.6.1</dom4j.version>
         <xml.apis.version>2.0.2</xml.apis.version>
         <kaptcha.version>2.3.2</kaptcha.version>
+        <aspectj.version>1.8.6</aspectj.version>
         <aspectj.weaver>1.8.6</aspectj.weaver>
         <curator-framework.version>4.0.0</curator-framework.version>
         <aliyun.java.sdk.dysmsapi.version>1.0.0-SNAPSHOT</aliyun.java.sdk.dysmsapi.version>

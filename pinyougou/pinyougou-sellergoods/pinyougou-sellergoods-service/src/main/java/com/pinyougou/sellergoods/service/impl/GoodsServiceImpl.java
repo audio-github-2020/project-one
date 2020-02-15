@@ -71,14 +71,18 @@ public class GoodsServiceImpl implements GoodsService {
             }
             //模糊查询 select * from tb_goods where sellerId=? and auditStatus=? and goodsName like '%小红%'
             if (StringUtils.isNotBlank(goods.getGoodsName())) {
-                criteria.andLike("auditStatus", "%" + goods.getGoodsName() + "%");
+                criteria.andLike("goodsName", "%" + goods.getGoodsName() + "%");
             }
         }
+
+        //设置非删除数据显示
+        criteria.andIsNull("isDelete");
+
         //执行查询
         List<Goods> all = goodsMapper.selectByExample(example);
         PageInfo<Goods> pageInfo = new PageInfo<Goods>(all);
         return pageInfo;
-    }
+    }//
 
     /***
      * 增加Goods信息
@@ -247,8 +251,33 @@ public class GoodsServiceImpl implements GoodsService {
         Example example = new Example(Goods.class);
         Example.Criteria criteria = example.createCriteria();
 
+        //真实环境下不应该真的删除
         //所需的SQL语句类似 delete from tb_goods where id in(1,2,5,6)
         criteria.andIn("id", ids);
-        return goodsMapper.deleteByExample(example);
+
+
+        //update tb_goods set s_delete where id in (1,2,3)
+        Goods goods=new Goods();
+        goods.setIsDelete("1");
+        return goodsMapper.updateByExampleSelective(goods,example);
+    }
+
+    /**
+     * 修改状态
+     * @param ids
+     * @param status
+     * @return
+     */
+    @Override
+    public int updateStatus(List<Long> ids, String status) {
+        //update goods set auditStatus=? where id in (1,2,3)
+        Example example=new Example(Goods.class);
+        Example.Criteria criteria=example.createCriteria();
+        criteria.andIn("id",ids);
+
+        //修改数据
+        Goods goods=new Goods();
+        goods.setAuditStatus(status);
+        return goodsMapper.updateByExampleSelective(goods, example);
     }
 }

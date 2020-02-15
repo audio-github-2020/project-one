@@ -6,8 +6,8 @@ import com.pinyougou.mapper.ContentMapper;
 import com.pinyougou.model.Content;
 import com.pinyougou.sellergoods.service.ContentService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import tk.mybatis.mapper.entity.Example;
+
 import java.util.List;
 
 @Service

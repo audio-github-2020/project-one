@@ -36,7 +36,7 @@ public class ItemCatServiceImpl implements ItemCatService {
     public PageInfo<ItemCat> getAll(ItemCat itemCat,int pageNum, int pageSize) {
         //执行分页
         PageHelper.startPage(pageNum,pageSize);
-       
+
         //执行查询
         List<ItemCat> all = itemCatMapper.select(itemCat);
         PageInfo<ItemCat> pageInfo = new PageInfo<ItemCat>(all);
@@ -105,4 +105,4 @@ public class ItemCatServiceImpl implements ItemCatService {
         itemCat.setParentId(id);
         return itemCatMapper.select(itemCat);
     }
-}
+}//

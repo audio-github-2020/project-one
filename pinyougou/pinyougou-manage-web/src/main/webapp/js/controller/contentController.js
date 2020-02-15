@@ -2,39 +2,72 @@
  * 定义一个控制层 controller
  * 发送HTTP请求从后台获取数据
  ****/
-app.controller("contentController",function($scope,$http,$controller,contentService){
+app.controller("contentController", function ($scope, $http, $controller, contentService, contentCategoryService, uploadService) {
 
     //继承父控制器
-    $controller("baseController",{$scope:$scope});
+    $controller("baseController", {$scope: $scope});
+
+    //定义状态集合     0         1          2         3
+    $scope.status = ["无效", "有效"];
+
+    //商品分类集合,以map形式储存
+    $scope.categoryList = {};
+
+    //创建对象
+    //点击页面的新建时，自动清空，创建新对象，所以这里不需要了
+    //$scope.entity = {};
+
+    //查询所有分类信息
+    $scope.getContentCategoryShowList = function () {
+        contentCategoryService.findAllList().success(function (response) {
+            //迭代集合，组装数据
+            for (var i = 0; i < response.length; i++) {
+                var key = response[i].id;
+                var value = response[i].name;
+                $scope.categoryList[key] = value;
+            }
+        })
+    }
+
+
+    //文件上传方法
+    $scope.uploadFile = function () {
+        uploadService.uploadFile().success(function (response) {
+            if (response.success) {
+                //图片的地址
+                $scope.entity.pic = response.message;
+            }
+        })
+    }
 
     //获取所有的Content信息
-    $scope.getPage=function(page,size){
+    $scope.getPage = function (page, size) {
         //发送请求获取数据
-        contentService.findAll(page,size,$scope.searchEntity).success(function(response){
+        contentService.findAll(page, size, $scope.searchEntity).success(function (response) {
             //集合数据
             $scope.list = response.list;
             //分页数据
-            $scope.paginationConf.totalItems=response.total;
+            $scope.paginationConf.totalItems = response.total;
         });
     }
 
     //添加或者修改方法
-    $scope.save = function(){
+    $scope.save = function () {
         var result = null;
-        if($scope.entity.id!=null){
+        if ($scope.entity.id != null) {
             //执行修改数据
             result = contentService.update($scope.entity);
-        }else{
+        } else {
             //增加操作
             result = contentService.add($scope.entity);
         }
         //判断操作流程
-        result.success(function(response){
+        result.success(function (response) {
             //判断执行状态
-            if(response.success){
+            if (response.success) {
                 //重新加载新的数据
                 $scope.reloadList();
-            }else{
+            } else {
                 //打印错误消息
                 alert(response.message);
             }
@@ -42,20 +75,20 @@ app.controller("contentController",function($scope,$http,$controller,contentServ
     }
 
     //根据ID查询信息
-    $scope.getById=function(id){
-        contentService.findOne(id).success(function(response){
+    $scope.getById = function (id) {
+        contentService.findOne(id).success(function (response) {
             //将后台的数据绑定到前台
-            $scope.entity=response;
+            $scope.entity = response;
         });
     }
 
     //批量删除
-    $scope.delete=function(){
-        contentService.delete($scope.selectids).success(function(response){
+    $scope.delete = function () {
+        contentService.delete($scope.selectids).success(function (response) {
             //判断删除状态
-            if(response.success){
+            if (response.success) {
                 $scope.reloadList();
-            }else{
+            } else {
                 alert(response.message);
             }
         });

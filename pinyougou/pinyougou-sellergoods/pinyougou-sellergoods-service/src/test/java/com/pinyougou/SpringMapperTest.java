@@ -1,7 +1,5 @@
 package com.pinyougou;
 
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import com.pinyougou.mapper.BrandMapper;
 import com.pinyougou.model.Brand;
 import org.springframework.context.ApplicationContext;
@@ -26,10 +24,10 @@ public class SpringMapperTest {
 
     //查询所有bean
     //@Test
-    public void test() {
-        //String s = null;
-        //boolean f = s.equals("1");
-        //System.out.println(f);
+    public void testbk() {
+        String s = "1";
+        boolean f = s.equals("1");
+        System.out.println(f);
 
     }
 
@@ -38,7 +36,7 @@ public class SpringMapperTest {
     public void testSpring() {
 
         //分页
-        PageHelper.startPage(1, 5);
+//        PageHelper.startPage(1, 5);
 
         List<Brand> brands = brandMapper.selectAll();
 
@@ -47,8 +45,8 @@ public class SpringMapperTest {
         }
 
         //分页信息
-        PageInfo<Brand> pageInfo = new PageInfo<Brand>(brands);
-        System.out.println(pageInfo);
+//        PageInfo<Brand> pageInfo = new PageInfo<Brand>(brands);
+//        System.out.println(pageInfo);
 
     }
 

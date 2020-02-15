@@ -246,7 +246,7 @@ app.controller("goodsController", function ($scope, $http, $controller, $locatio
             //分页数据
             $scope.paginationConf.totalItems = response.total;
         });
-    }
+    }//
 
     //添加或者修改方法
     $scope.save = function () {

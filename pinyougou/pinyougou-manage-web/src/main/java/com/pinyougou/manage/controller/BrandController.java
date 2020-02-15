@@ -38,27 +38,7 @@ public class BrandController {
         return  pageInfo;
     }
 
-    /*
-    @RequestMapping(value="/add",method = RequestMethod.POST)
-    public Map<String,Object> add(@RequestBody Brand brand){
-        //message:消息
-        //success:成功/失败状态
-        Map<String,Object> result=new HashMap<>();
-        try {
-            int acount=brandService.add(brand);
-            if(acount>0){
-                //增加成功
-                result.put("success",true);
-                result.put("message","增加成功");
-                return result;
-            }
-        } catch (Exception e) {
-        }
-        //增加失败
-        result.put("success",false);
-        result.put("message","增加失败");
-        return result;
-    }*/
+
     //将map对象直接封装到result对象中
     @RequestMapping(value="/add",method = RequestMethod.POST)
     public Result add(@RequestBody Brand brand){

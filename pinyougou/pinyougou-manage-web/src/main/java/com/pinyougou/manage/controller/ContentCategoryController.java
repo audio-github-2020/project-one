@@ -112,6 +112,7 @@ public class ContentCategoryController {
      * 获取JSON数据
      * @return
      */
+    //("/contentCategory/list.shtml");
     @RequestMapping(value = "/list",method = RequestMethod.GET)
     public List<ContentCategory> list() {
         return contentCategoryService.getAll();

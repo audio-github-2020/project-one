@@ -26,13 +26,8 @@
 	<script src="/js/base_pagination.js"></script>
 	<script src="/js/service/goodsService.js"></script>
 	<script src="/js/service/itemCatService.js"></script>
-	<script src="/js/service/uploadService.js"></script>
-	<script src="/js/service/typeTemplateService.js"></script>
 	<script src="/js/controller/baseController.js"></script>
 	<script src="/js/controller/goodsController.js"></script>
-
-
-
 
  
 </head>
@@ -70,8 +65,8 @@
                                          	<option value="2">审核通过</option>    
                                          	<option value="3">已驳回</option>                                     
                                         </select>
-							                  商品名称：<input >									
-									<button class="btn btn-default" >查询</button>                                    
+									商品名称：<input ng-model="searchEntity.goodsName">
+									<button class="btn btn-default" ng-click="getPage(1,10)">查询</button>
                                 </div>
                             </div>
                             <!--工具栏/-->
@@ -89,7 +84,7 @@
 									      <th class="sorting">一级分类</th>
 									      <th class="sorting">二级分类</th>
 									      <th class="sorting">三级分类</th>
-									      <th class="sorting">状态</th>									     						
+									      <th class="sorting">状态</th>
 					                      <th class="text-center">操作</th>
 			                          </tr>
 			                      </thead>

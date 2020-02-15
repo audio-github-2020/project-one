@@ -48,7 +48,7 @@ public class GoodsController {
             //s判断当前用户操作的是否为自己的商品
             String sellerId = SecurityContextHolder.getContext().getAuthentication().getName();
             if(!sellerId.equals(goods.getSellerId())){
-                return new Result(false,"非法操作");
+                return new Result(false,"违规操作");
             }
             //根据ID修改Goods信息
             int mcount = goodsService.updateGoodsById(goods);
@@ -123,8 +123,7 @@ public class GoodsController {
         goods.setSellerId(sellerId);
 
         return goodsService.getAll(goods,page, size);
-    }
-
+    }//
 
     /***
      * 查询所有

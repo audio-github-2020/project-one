@@ -4,6 +4,11 @@
  * */
 app.service("goodsService",function($http){
 
+    //修改状态
+    this.updateStatus=function (ids,status) {
+        return $http.post("/goods/update/status.shtml?status="+status,ids);
+    }
+
     //查询列表
     this.findAll=function(page,size,searchEntity){
         return $http.post("/goods/list.shtml?page="+page+"&size="+size,searchEntity);

@@ -3,7 +3,10 @@
  * 抽取发送请求的一部分代码
  * */
 app.service("itemCatService",function($http){
-
+    //查询列表,不分页
+    this.findAllList=function(){
+        return $http.get("/itemCat/list.shtml");
+    }
     //查询列表
     this.findAll=function(page,size,searchEntity){
         return $http.post("/itemCat/list.shtml?page="+page+"&size="+size,searchEntity);
@@ -35,3 +38,4 @@ app.service("itemCatService",function($http){
     }
 
 });
+//

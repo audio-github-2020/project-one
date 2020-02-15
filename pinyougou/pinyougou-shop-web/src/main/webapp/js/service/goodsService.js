@@ -7,7 +7,7 @@ app.service("goodsService",function($http){
     //查询列表
     this.findAll=function(page,size,searchEntity){
         return $http.post("/goods/list.shtml?page="+page+"&size="+size,searchEntity);
-    }
+    }//
 
     //增加Goods
     this.add=function(entity){
