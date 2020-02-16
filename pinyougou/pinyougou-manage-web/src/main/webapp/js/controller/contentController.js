@@ -11,7 +11,7 @@ app.controller("contentController", function ($scope, $http, $controller, conten
     $scope.status = ["无效", "有效"];
 
     //商品分类集合,以map形式储存
-    $scope.categoryList = {};
+    $scope.categoryNameList = {};
 
     //创建对象
     //点击页面的新建时，自动清空，创建新对象，所以这里不需要了
@@ -20,11 +20,14 @@ app.controller("contentController", function ($scope, $http, $controller, conten
     //查询所有分类信息
     $scope.getContentCategoryShowList = function () {
         contentCategoryService.findAllList().success(function (response) {
+            //接收分类数据
+            $scope.categoryList=response;
+
             //迭代集合，组装数据
             for (var i = 0; i < response.length; i++) {
                 var key = response[i].id;
                 var value = response[i].name;
-                $scope.categoryList[key] = value;
+                $scope.categoryNameList[key] = value;
             }
         })
     }
