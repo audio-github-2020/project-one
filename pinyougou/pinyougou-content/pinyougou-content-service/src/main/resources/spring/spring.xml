@@ -60,7 +60,8 @@
 <!--    </aop:config>-->
 
     <!--引入外部配置-->
-    <import resource="classpath*:spring/applicationContext-mapper.xml" />
+    <import resource="spring-mybatis.xml" />
     <import resource="spring-dubbo.xml" />
+    <import resource="spring-redis.xml" />
 
 </beans>

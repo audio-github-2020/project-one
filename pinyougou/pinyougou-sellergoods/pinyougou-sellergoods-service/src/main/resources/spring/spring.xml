@@ -68,7 +68,8 @@
     <!--引入外部配置-->
 
 <!--    <import resource="applicationContext-mapper.xml" /> 为什么课程中这里直接写文件名就可以成功导入资源-->
-    <import resource="classpath*:spring/applicationContext-mapper.xml" />
+<!--    <import resource="classpath*:spring/applicationContext-mapper.xml" />-->
+    <import resource="spring-mybatis.xml" />
     <import resource="spring-dubbo.xml" />
 
 
