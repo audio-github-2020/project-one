@@ -1,8 +1,6 @@
 package com.springdataredis;
 
-import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -12,12 +10,12 @@ import java.util.List;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "classpath:spring-redis.xml")
 public class HashTest {
-    @Autowired
+    //@Autowired
     private RedisTemplate redisTemplate;
 
 
     //Hash类型什么都可以存，但是有两层Key，第一层是namespace，第二层是key
-    @Test
+    //@Test
     public void testAdd() {
         redisTemplate.boundHashOps("NameSpace").put("1","building");
         redisTemplate.boundHashOps("NameSpace").put("2","builds");
@@ -29,7 +27,7 @@ public class HashTest {
     }
 
     //查询操作
-    @Test
+    //@Test
     public void testGet(){
         Object nameSpace = redisTemplate.boundHashOps("NameSpace").get("3");
         System.out.println(nameSpace);
@@ -42,7 +40,7 @@ public class HashTest {
     }
 
     //删除操作
-    @Test
+    //@Test
     public void testDelte(){
         redisTemplate.boundHashOps("NameSpace").delete("2");
     }

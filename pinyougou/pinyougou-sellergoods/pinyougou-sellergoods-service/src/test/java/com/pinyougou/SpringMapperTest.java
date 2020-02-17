@@ -17,7 +17,7 @@ public class SpringMapperTest {
     //@Before
     public void init() {
         //初始化Spring容器
-        act = new ClassPathXmlApplicationContext("spring/applicationContext-service.xml");
+        act = new ClassPathXmlApplicationContext("spring/spring.xml");
         //从容器中获取BrandMapper的实例
         brandMapper = act.getBean(BrandMapper.class);
     }
@@ -27,6 +27,15 @@ public class SpringMapperTest {
     public void testbk() {
         String s = "1";
         boolean f = s.equals("1");
+        System.out.println(f);
+        System.out.println(f);
+        System.out.println(f);
+        System.out.println(f);
+        System.out.println(f);
+        System.out.println(f);
+        System.out.println(f);
+        System.out.println(f);
+        System.out.println(f);
         System.out.println(f);
 
     }

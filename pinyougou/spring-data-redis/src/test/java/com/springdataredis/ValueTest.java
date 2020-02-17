@@ -1,8 +1,6 @@
 package com.springdataredis;
 
-import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -11,20 +9,20 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @ContextConfiguration(locations="classpath:spring-redis.xml")
 public class ValueTest {
 
-    @Autowired
+    //@Autowired
     private RedisTemplate redisTemplate;
 
-    @Test
+    //@Test
     public void testAdd(){
         //boundValueOps用于操作简单的key-value类型
         redisTemplate.boundValueOps("username").set("red");
     }
-    @Test
+    //@Test
     public void testGet(){
         Object username = redisTemplate.boundValueOps("username").get();
         System.out.println(username);
     }
-    @Test
+    //@Test
     public void testDelete(){
         redisTemplate.delete("username");
     }
