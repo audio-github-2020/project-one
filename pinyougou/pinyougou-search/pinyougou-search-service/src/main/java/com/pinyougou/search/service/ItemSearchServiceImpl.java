@@ -49,7 +49,7 @@ public class ItemSearchServiceImpl implements ItemSearchService {
 
             //分类过滤
             String category = (String) searchMap.get("category");
-            if(StringUtils.isNotBlank(category)){
+            if (StringUtils.isNotBlank(category)) {
                 //创建Criteria对象，用于填充对应的搜索条件
                 Criteria criteria = new Criteria("item_category").is(category);
 
@@ -63,7 +63,7 @@ public class ItemSearchServiceImpl implements ItemSearchService {
 
             //品牌过滤
             String brand = (String) searchMap.get("brand");
-            if(StringUtils.isNotBlank(brand)){
+            if (StringUtils.isNotBlank(brand)) {
                 //创建Criteria对象
                 Criteria criteria = new Criteria("item_brand").is(brand);
 
@@ -75,11 +75,11 @@ public class ItemSearchServiceImpl implements ItemSearchService {
             }
             //接收规格数据
             Object spec = searchMap.get("spec");
-            if(spec!=null){
+            if (spec != null) {
                 //$scope.searchMap={"keyword":"","category":"","brand":"",
                 // spec:{"网络制式":"联通3G","机身内存":"16G","尺码":"175寸"};
                 //过滤搜索规格数据
-                Map<String,String> specMap = JSON.parseObject(spec.toString(),Map.class);
+                Map<String, String> specMap = JSON.parseObject(spec.toString(), Map.class);
 
                 //循环迭代搜索
                 for (Map.Entry<String, String> entry : specMap.entrySet()) {
@@ -89,7 +89,7 @@ public class ItemSearchServiceImpl implements ItemSearchService {
                     String value = entry.getValue();
 
                     //创建Criteria     key = 网络制式
-                    Criteria criteria = new Criteria("item_spec_"+key).is(value);
+                    Criteria criteria = new Criteria("item_spec_" + key).is(value);
                     //创建FilterQuery
                     FilterQuery filterQuery = new SimpleFilterQuery(criteria);
                     //添加到Query中
@@ -97,7 +97,36 @@ public class ItemSearchServiceImpl implements ItemSearchService {
                 }
             }
 
+            //价格区间搜索
+            String price = (String) searchMap.get("price");
+            if (StringUtils.isNotBlank(brand)) {
+                String[] ranges = price.split("-");
+                Criteria criteria = new Criteria("item_price");
+                //有明确价格区间的
+                if (ranges != null && ranges.length == 2) {
+                    //创建Criteria对象
+                    //  select * from tb_item where price between x and y;
+                    criteria.between(Long.parseLong(ranges[0]),
+                            Long.parseLong(ranges[1]),
+                            true, false);
 
+                }
+
+                //价格3000元以上的
+                ranges = price.split(" ");
+                if (ranges != null && ranges.length == 2) {
+                    //创建Criteria对象
+                    //  select * from tb_item where price between x and null;
+                    //criteria.between(Long.parseLong(ranges[0]),null,true, false);
+                    criteria.greaterThanEqual(Long.parseLong(ranges[0]));
+
+                }
+                //搜索过滤对象
+                FilterQuery filterQuery = new SimpleFilterQuery(criteria);
+
+                //搜索过滤对象加入到Query中
+                query.addFilterQuery(filterQuery);
+            }
 
         }
         //分页
@@ -119,7 +148,7 @@ public class ItemSearchServiceImpl implements ItemSearchService {
         List<String> categoryList = getCategory(query);
 
         //将分类数据存入到Map中，主要作用是页面显示
-        dataMap.put("categoryList",categoryList);
+        dataMap.put("categoryList", categoryList);
 
 //        //默认选中第一个分类,查询分类对应的品牌和规格信息
 //        if(categoryList!=null&&categoryList.size()>0){
@@ -129,11 +158,11 @@ public class ItemSearchServiceImpl implements ItemSearchService {
 
         //当用户选择了分类的时候，则根据分类检索规格和品牌
         String category = (String) searchMap.get("category");
-        if(StringUtils.isNotBlank(category)){
+        if (StringUtils.isNotBlank(category)) {
             dataMap.putAll(getBrandAndSpec(category));
-        }else{
+        } else {
             //默认选中第1个分类，查询分类对应的品牌信息和规格信息
-            if(categoryList!=null && categoryList.size()>0){
+            if (categoryList != null && categoryList.size() > 0) {
                 //Map<String,Object> specBrandMap =  getBrandAndSpec(categoryList.get(0));
                 dataMap.putAll(getBrandAndSpec(categoryList.get(0)));
             }
@@ -152,28 +181,28 @@ public class ItemSearchServiceImpl implements ItemSearchService {
 
     @Autowired
     private RedisTemplate redisTemplate;
+
     /**
      * 获取模板ID
      * 同时获取规格和品牌信息
      */
-    public Map<String,Object> getBrandAndSpec(String category){
-        Map<String,Object> dataMap=new HashMap<>();
+    public Map<String, Object> getBrandAndSpec(String category) {
+        Map<String, Object> dataMap = new HashMap<>();
 
-        Long typeTemplateId=(Long) redisTemplate.boundHashOps("ItemCat").get(category);
-        if(typeTemplateId!=null){
+        Long typeTemplateId = (Long) redisTemplate.boundHashOps("ItemCat").get(category);
+        if (typeTemplateId != null) {
             //获取品牌信息
             List<Map> brandList = (List<Map>) redisTemplate.boundHashOps("BrandList").get(typeTemplateId);
 
             //获取规格信息
-            List<Map> specList = (List<Map>)redisTemplate.boundHashOps("SpecList").get(typeTemplateId);
+            List<Map> specList = (List<Map>) redisTemplate.boundHashOps("SpecList").get(typeTemplateId);
 
             //将品牌和规格存入map
-            dataMap.put("brandList",brandList);
-            dataMap.put("specList",specList);
+            dataMap.put("brandList", brandList);
+            dataMap.put("specList", specList);
         }
         return dataMap;
     }
-
 
     /****
      * 高亮数据替换
@@ -230,6 +259,7 @@ public class ItemSearchServiceImpl implements ItemSearchService {
 
     /**
      * 获取分类分组数据
+     *
      * @param query
      * @return
      */
