@@ -14,17 +14,19 @@
     <!--dubbo配置-->
 
     <!--注册一个应用-->
-    <dubbo:application name="pinyougou-search-service" />
+    <dubbo:application name="pinyougou-search-service"/>
     <!--<dubbo:protocol port="20882" name="dubbo" host="192.168.73.1" />-->
-    <dubbo:protocol port="20885" name="dubbo" />
+    <dubbo:protocol port="20885" name="dubbo"/>
     <!--注册中心-->
-    <dubbo:registry address="zookeeper://192.168.12.128:2181" />
+    <dubbo:registry address="zookeeper://192.168.12.128:2181"/>
     <!--包扫描，暴露接口信息-->
-    <dubbo:annotation package="com.pinyougou.search" />
+    <dubbo:annotation package="com.pinyougou.search"/>
     <!--指定solr地址-->
-    <solr:solr-server id="solrServer" url="http://192.168.12.128:28081/solr/collection1" />
+    <solr:solr-server id="solrServer" url="http://192.168.12.128:28081/solr/collection1"/>
     <!-- solr模板，使用solr模板可对索引库进行CRUD的操作 -->
     <bean id="solrTemplate" class="org.springframework.data.solr.core.SolrTemplate">
-        <constructor-arg ref="solrServer" />
+        <constructor-arg ref="solrServer"/>
     </bean>
+    <!--  引入redis配置  -->
+    <import resource="spring-redis.xml"/>
 </beans>
