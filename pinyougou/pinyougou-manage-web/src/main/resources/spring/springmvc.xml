@@ -34,6 +34,7 @@
     </bean>
 
     <!-- 引用 dubbo 服务 -->
+    <dubbo:protocol port="20881" name="dubbo" />
     <dubbo:application name="pinyougou-manage-web"/>
     <dubbo:registry address="zookeeper://192.168.12.128:2181"/>
     <dubbo:annotation package="com.pinyougou.manage"/>

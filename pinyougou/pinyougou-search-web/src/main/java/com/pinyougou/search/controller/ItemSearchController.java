@@ -4,6 +4,7 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.pinyougou.search.service.ItemSearchService;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Map;
@@ -20,8 +21,8 @@ public class ItemSearchController {
      * @param searchMap
      * @return
      */
-    @RequestMapping(value="/search")
-    public Map<String, Object> search(@RequestBody(required = false) Map searchMap) {
+    @RequestMapping(value="/search",method = RequestMethod.POST)
+    public Map<String, Object> search(@RequestBody(required = false) Map<String, Object> searchMap) {
         return itemSearchService.search(searchMap);
     }
 

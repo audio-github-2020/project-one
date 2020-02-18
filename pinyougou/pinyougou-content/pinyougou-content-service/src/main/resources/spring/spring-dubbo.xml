@@ -13,7 +13,7 @@
     <!--指定注册中心的地址-->
     <dubbo:registry address="zookeeper://192.168.12.128:2181" />
     <!--对外暴露端口-->
-    <dubbo:protocol name="dubbo" port="20881" />
+    <dubbo:protocol name="dubbo" port="20883" />
     <!--包扫描-->
     <dubbo:annotation package="com.pinyougou.content" />
 </beans>

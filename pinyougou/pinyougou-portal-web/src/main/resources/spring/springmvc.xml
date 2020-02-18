@@ -12,6 +12,7 @@
         http://code.alibabatech.com/schema/dubbo
         http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
 
+    <dubbo:protocol port="20884" name="dubbo" />
     <!--配置dubbo-->
     <dubbo:application name="pinyougou-portal-web" />
     <!--超时设置-->

@@ -13,6 +13,7 @@
         http://www.springframework.org/schema/mvc/spring-mvc.xsd http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
 
     <!--dubbo配置-->
+    <dubbo:protocol port="20882" name="dubbo" />
     <!--注册应用-->
     <dubbo:application name="pinyougou-shop-web" />
     <!--设置客户端请求超时时间-->
