@@ -310,33 +310,22 @@
 				<div class="fr page">
 					<div class="sui-pagination pagination-large">
 						<ul>
-							<li class="prev disabled">
-								<a href="#">«上一页</a>
+							<li class="prev" ng-if="page.hasPre!=0" >
+								<a href="javascript:void(0)" ng-click="pageSearch(page.prePage)">«上一页</a>
 							</li>
-							<li class="active">
-								<a href="#">1</a>
+							<li class="{{pg==page.pageNum?'active':''}}" ng-repeat="pg in page.pages">
+								<a href="javascript:void(0)" ng-click="pageSearch(pg)">{{pg}}</a>
 							</li>
-							<li>
-								<a href="#">2</a>
-							</li>
-							<li>
-								<a href="#">3</a>
-							</li>
-							<li>
-								<a href="#">4</a>
-							</li>
-							<li>
-								<a href="#">5</a>
-							</li>
-							<li class="dotted"><span>...</span></li>
-							<li class="next">
-								<a href="#">下一页»</a>
+
+							<li class="dotted" ng-if="page.hasNext>0"><span>...</span></li>
+							<li class="next" ng-if="page.hasNext!=0">
+								<a href="javascript:void(0)" ng-click="pageSearch(page.nextPage)">下一页»</a>
 							</li>
 						</ul>
-						<div><span>共10页&nbsp;</span><span>
+						<div><span>共{{page.totalPage}}页&nbsp;</span><span>
       到第
-      <input type="text" class="page-num">
-      页 <button class="page-confirm" onclick="alert(1)">确定</button></span></div>
+      <input type="text" ng-model="searchMap.pageNum" class="page-num" style="max-width: 25px">
+      页 <button class="page-confirm" ng-click="pageSearch(searchMap.pageNum)">确定</button></span></div>
 					</div>
 				</div>
 			</div>

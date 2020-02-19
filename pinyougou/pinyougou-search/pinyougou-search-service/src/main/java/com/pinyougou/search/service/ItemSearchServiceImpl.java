@@ -129,9 +129,19 @@ public class ItemSearchServiceImpl implements ItemSearchService {
             }
 
         }
+
+
         //分页
-        query.setOffset(0);
-        query.setRows(10);
+        Integer pageNum=(Integer) searchMap.get("pageNum");
+        Integer size=(Integer) searchMap.get("size");
+        if(pageNum==null){
+            pageNum=1;
+        }
+        if(size==null){
+            size=10;
+        }
+        query.setOffset((pageNum-1)*size);//起始数据，从第几条开始查询  (pageNum-1)+size
+        query.setRows(size); //每页显示多少条
 
         //执行查询
         //非高亮查询ScoredPage<Item> scoredPage = solrTemplate.queryForPage(query, Item.class);
