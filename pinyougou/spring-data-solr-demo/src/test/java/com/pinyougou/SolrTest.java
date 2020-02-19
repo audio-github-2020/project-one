@@ -2,7 +2,6 @@ package com.pinyougou;
 
 import com.domain.Item;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.solr.core.SolrTemplate;
 import org.springframework.data.solr.core.query.Criteria;
 import org.springframework.data.solr.core.query.Query;
@@ -19,7 +18,7 @@ import java.util.List;
 @ContextConfiguration(locations = "classpath:spring-solr.xml")
 public class SolrTest {
 
-    @Autowired
+    //@Autowired
     private SolrTemplate solrTemplate;
 
     /**

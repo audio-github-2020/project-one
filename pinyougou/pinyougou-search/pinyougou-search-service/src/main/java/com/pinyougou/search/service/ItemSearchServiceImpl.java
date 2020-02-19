@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSON;
 import com.pinyougou.model.Item;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.solr.core.SolrTemplate;
 import org.springframework.data.solr.core.query.*;
@@ -43,7 +44,7 @@ public class ItemSearchServiceImpl implements ItemSearchService {
             //根据关键词查询
             if (StringUtils.isNotBlank(keyword)) {
                 //第一个参数是要查询的域
-                Criteria criteria = new Criteria("item_keywords").is(keyword);
+                Criteria criteria = new Criteria("item_keywords").is(keyword.replace(" ",""));
                 query.addCriteria(criteria);
             }
 
@@ -127,21 +128,38 @@ public class ItemSearchServiceImpl implements ItemSearchService {
                 //搜索过滤对象加入到Query中
                 query.addFilterQuery(filterQuery);
             }
+            //分页
+            Integer pageNum=(Integer) searchMap.get("pageNum");
+            Integer size=(Integer) searchMap.get("size");
+            if(pageNum==null){
+                pageNum=1;
+            }
+            if(size==null){
+                size=10;
+            }
+            query.setOffset((pageNum-1)*size);//起始数据，从第几条开始查询  (pageNum-1)+size
+            query.setRows(size); //每页显示多少条
 
+            //排序功能
+            String sort = (String) searchMap.get("sort");
+            String sortField= (String) searchMap.get("sortField");
+
+            //执行排序
+            if(StringUtils.isNotBlank(sort) && StringUtils.isNotBlank(sortField)){
+                //query.addSort(new Sort(Sort.Direction.ASC,sortField));
+                Sort orders = null;
+
+                //升序
+                if(sort.equalsIgnoreCase("ASC")){
+                    orders = new Sort(Sort.Direction.ASC,sortField);
+                }else{
+                    //降序
+                    orders = new Sort(Sort.Direction.DESC,sortField);
+                }
+                query.addSort(orders);
+            }
         }
 
-
-        //分页
-        Integer pageNum=(Integer) searchMap.get("pageNum");
-        Integer size=(Integer) searchMap.get("size");
-        if(pageNum==null){
-            pageNum=1;
-        }
-        if(size==null){
-            size=10;
-        }
-        query.setOffset((pageNum-1)*size);//起始数据，从第几条开始查询  (pageNum-1)+size
-        query.setRows(size); //每页显示多少条
 
         //执行查询
         //非高亮查询ScoredPage<Item> scoredPage = solrTemplate.queryForPage(query, Item.class);
@@ -274,6 +292,10 @@ public class ItemSearchServiceImpl implements ItemSearchService {
      * @return
      */
     public List<String> getCategory(HighlightQuery query) {
+        //为了解决查新第二页的时候，分页查询也被指定第二页了，所以这里要重置分页
+        query.setRows(100);
+        query.setOffset(0);
+
         //分组查询，条件封装都使用上面的Query对象
         GroupOptions groupOptions = new GroupOptions();
 

@@ -1,7 +1,7 @@
 /*
 * 搜索Controller实现
 * */
-app.controller('searchController', function ($scope, searchService) {
+app.controller('searchController', function ($scope,$location, searchService) {
     //分页定义
     $scope.page = {
         size: 10,        //每页显示多少条
@@ -18,11 +18,72 @@ app.controller('searchController', function ($scope, searchService) {
         hasNext: 0       //是否有下页
     }
 
+
+    //加载关键字
+    $scope.loadKeyword=function(){
+        //获取地址栏关键字
+        var keyword=$location.search()['keyword'];
+        //搜索操作
+
+    }
+
     //定义一个数据，用以存储选择的筛选条件
-
     //多选就是将"keyword": ""换成"keyword": []
-    $scope.searchMap = {"keyword": "", "category": "", "brand": "", spec: {}, "price": "", "pageNum": 1, "size": 10};
+    $scope.searchMap = {
+        "keyword": "",
+        "category": "",
+        "brand": "",
+        spec: {},
+        "price": "",
+        "pageNum": 1,
+        "size": 10,
+        "sort": "",
+        "sortField": ""
+    };
 
+    //定义一个集合存储所有品牌
+    $scope.resultMap = {brandList: []};
+
+    //加载关键字
+    $scope.loadKeyword=function(){
+        //获取地址栏关键字
+        var keyword=$location.search()['keyword'];
+
+        //搜索操作
+        if(keyword!=null){
+            $scope.searchMap.keyword=keyword;
+        }
+
+        //执行搜索
+        $scope.search();
+    }
+
+    //搜索品牌
+    $scope.keywordsLoadBrand = function () {
+        if ($scope.resultMap.brandList != null) {
+            for (var i = 0; i < $scope.resultMap.brandList.length; i++) {
+                //获取品牌名字
+                var brandName = $scope.resultMap.brandList[i].text;
+                var index = $scope.searchMap.keyword.indexOf(brandName);
+                if (index >= 0) {
+                    //将品牌加入到brand中
+                    $scope.searchMap.brand = brandName;
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+
+    //排序搜索
+    $scope.sortSearch = function (sort, sortField) {
+        $scope.searchMap.sort = sort;
+        $scope.searchMap.sortField = sortField;
+
+        //搜索
+        $scope.search();
+    }
     //点击搜索条件时，将选中的分类记录
     $scope.addItemSearch = function (key, value) {
         if (key == "category" || key == "brand" || key == "price") {
@@ -72,12 +133,9 @@ app.controller('searchController', function ($scope, searchService) {
         if ($scope.searchMap.pageNum > $scope.page.totalPage) {
             $scope.searchMap.pageNum = $scope.page.totalPage;
         }
-        alert($scope.searchMap.pageNum);
         //调用搜索
         $scope.search();
     }
-
-
 
 
     /**

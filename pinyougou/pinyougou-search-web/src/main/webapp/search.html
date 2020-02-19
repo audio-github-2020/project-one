@@ -18,7 +18,7 @@
 		<script src="/js/controller/searchController.js"></script>
 	</head>
 
-	<body ng-app="pinyougou" ng-controller="searchController" ng-init="search()">
+	<body ng-app="pinyougou" ng-controller="searchController" ng-init="loadKeyword();search()">
 		<!-- 头部栏位 -->
 		<!--页面顶部-->
 		<div id="nav-bottom">
@@ -172,7 +172,7 @@
 					</div>
 					<div class="fl ext"></div>
 				</div>
-				<div class="type-wrap logo" ng-if="searchMap.brand==''">
+				<div class="type-wrap logo" ng-if="searchMap.brand=='' && keywordsLoadBrand()==false">
 					<div class="fl key brand">品牌</div>
 					<div class="value logos">
 						<ul class="logo-list">
@@ -257,6 +257,7 @@
 				<div class="sui-navbar">
 					<div class="navbar-inner filter">
 						<ul class="sui-nav">
+							<!--	调用方法：往searchMap的sort和sortField中加入排序信息	-->
 							<li class="active">
 								<a href="#">综合</a>
 							</li>
@@ -264,13 +265,16 @@
 								<a href="#">销量</a>
 							</li>
 							<li>
-								<a href="#">新品</a>
+								<a href="javascript:void(0)" ng-click="sortSearch('DESC','item_updatetime')">新品</a>
 							</li>
 							<li>
 								<a href="#">评价</a>
 							</li>
 							<li>
-								<a href="#">价格</a>
+								<a href="javascript:void(0)" ng-click="sortSearch('ASC','item_price')">价格↑</a>
+							</li>
+							<li>
+								<a href="javascript:void(0)" ng-click="sortSearch('DESC','item_price')">价格↓</a>
 							</li>
 						</ul>
 					</div>
