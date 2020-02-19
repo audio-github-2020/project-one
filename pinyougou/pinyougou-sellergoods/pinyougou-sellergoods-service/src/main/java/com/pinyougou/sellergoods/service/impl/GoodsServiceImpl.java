@@ -280,4 +280,22 @@ public class GoodsServiceImpl implements GoodsService {
         goods.setAuditStatus(status);
         return goodsMapper.updateByExampleSelective(goods, example);
     }
-}
+
+    /**
+     * 根据goodids查询item
+     * @param ids
+     * @param status
+     * @return
+     */
+    @Override
+    public List<Item> getByGoodsIds(List<Long> ids, String status) {
+
+        //select * from tb_item where goods_id in (xx,xx) and status =1;
+        Example example=new Example(Item.class);
+        Example.Criteria criteria=example.createCriteria();
+        criteria.andIn("goodsId",ids);
+        criteria.andEqualTo("status",status);
+        return itemMapper.selectByExample(example);
+    }
+}//
+//

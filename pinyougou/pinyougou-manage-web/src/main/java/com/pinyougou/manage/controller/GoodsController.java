@@ -4,6 +4,8 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.github.pagehelper.PageInfo;
 import com.pinyougou.http.Result;
 import com.pinyougou.model.Goods;
+import com.pinyougou.model.Item;
+import com.pinyougou.search.service.ItemSearchService;
 import com.pinyougou.sellergoods.service.GoodsService;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,6 +17,9 @@ public class GoodsController {
 
     @Reference
     private GoodsService goodsService;
+
+    @Reference
+    private ItemSearchService itemSearchService;
 
     /**
      * 审核操作
@@ -28,14 +33,21 @@ public class GoodsController {
         try {
             int mcount = goodsService.updateStatus(ids, status);
             if (mcount > 0) {
+                //如果审核通过，需要将item信息加到索引库
+                if (status.equals("1")) {
+                    //根据GoodsIds查询Items
+                    List<Item> items = goodsService.getByGoodsIds(ids, status);
+                    //批量导入索引库
+                    itemSearchService.importList(items);
+                }
                 return new Result(true);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return new Result(false,"审核失败");
-    }
-
+        return new Result(false, "审核失败");
+    }//
+//
     /***
      * 根据ID批量删除
      * @param ids
@@ -46,8 +58,10 @@ public class GoodsController {
         try {
             //根据ID删除数据
             int dcount = goodsService.deleteByIds(ids);
-
             if (dcount > 0) {
+                //批量导入索引库
+                itemSearchService.deleteByGoodsIds(ids);
+
                 return new Result(true, "删除成功");
             }
         } catch (Exception e) {

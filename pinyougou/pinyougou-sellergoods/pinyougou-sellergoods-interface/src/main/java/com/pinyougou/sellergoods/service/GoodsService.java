@@ -1,6 +1,8 @@
 package com.pinyougou.sellergoods.service;
 import com.github.pagehelper.PageInfo;
 import com.pinyougou.model.Goods;
+import com.pinyougou.model.Item;
+
 import java.util.List;
 
 public interface GoodsService {
@@ -49,4 +51,12 @@ public interface GoodsService {
 
 
     int updateStatus(List<Long> ids, String status);
+
+    /**
+     * 根据goodids查询item
+     * @param ids
+     * @param status
+     * @return
+     */
+    List<Item> getByGoodsIds(List<Long> ids, String status);
 }

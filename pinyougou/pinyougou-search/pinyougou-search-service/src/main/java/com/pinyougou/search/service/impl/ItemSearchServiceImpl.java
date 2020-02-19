@@ -1,8 +1,9 @@
-package com.pinyougou.search.service;
+package com.pinyougou.search.service.impl;
 
 import com.alibaba.dubbo.config.annotation.Service;
 import com.alibaba.fastjson.JSON;
 import com.pinyougou.model.Item;
+import com.pinyougou.search.service.ItemSearchService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -18,6 +19,9 @@ import java.util.Map;
 
 @Service(interfaceClass = ItemSearchService.class)
 public class ItemSearchServiceImpl implements ItemSearchService {
+
+    @Autowired
+    private RedisTemplate redisTemplate;
 
     @Autowired
     private SolrTemplate solrTemplate;
@@ -207,8 +211,30 @@ public class ItemSearchServiceImpl implements ItemSearchService {
         return dataMap;
     }
 
-    @Autowired
-    private RedisTemplate redisTemplate;
+    /**
+     * 批量导入索引库
+     * @param items
+     */
+    @Override
+    public void importList(List<Item> items) {
+        solrTemplate.saveBeans(items);
+        solrTemplate.commit();
+    }
+
+    /**
+     * 批量删除索引库数据
+     * @param ids
+     */
+    @Override
+    public void deleteByGoodsIds(List<Long> ids) {
+        //delete from tb_item where goodsin in(xx,xx)
+        Criteria criteria=new Criteria("item_goodsid").in(ids);
+        Query query=new SimpleQuery(criteria);
+
+        solrTemplate.delete(query);
+        solrTemplate.commit();
+
+    }
 
     /**
      * 获取模板ID
@@ -358,4 +384,5 @@ public class ItemSearchServiceImpl implements ItemSearchService {
 
         return dataMap;
     }
-}
+}//
+//
