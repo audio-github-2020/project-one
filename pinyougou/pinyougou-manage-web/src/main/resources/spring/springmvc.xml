@@ -43,6 +43,6 @@
     <context:component-scan base-package="com.pinyougou.manage" />
 
     <!--  加载配置文件sys_config文件  -->
-    <context:property-placeholder location="classpath*:config/sys_config.properties"/>
+    <context:property-placeholder location="classpath:config/sys_config.properties"/>
 
 </beans>

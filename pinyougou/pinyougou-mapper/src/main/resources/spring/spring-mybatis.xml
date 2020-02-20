@@ -19,16 +19,11 @@
         http://www.springframework.org/schema/cache/spring-cache.xsd">
 
     <!-- 加载配置文件 -->
-    <context:property-placeholder location="classpath*:properties/*.properties"/>
+    <!--    <context:property-placeholder location="classpath*:properties/*.properties"/>-->
+    <context:property-override location="classpath:properties/db.properties"/>
     <!-- 数据库连接池 -->
-    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" destroy-method="close">
-        <property name="url" value="${jdbc.url}"/>
-        <property name="username" value="${jdbc.username}"/>
-        <property name="password" value="${jdbc.password}"/>
-        <property name="driverClassName" value="${jdbc.driver}"/>
-        <property name="maxActive" value="10"/>
-        <property name="minIdle" value="5"/>
-    </bean>
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" destroy-method="close"/>
+
     <!-- 配置 sqlSessionFactory -->
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <!-- 数据源 -->
@@ -58,16 +53,16 @@
             </array>
         </property>
     </bean>
-<!--    &lt;!&ndash; 扫描 mapper &ndash;&gt;-->
-<!--    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">-->
-<!--        <property name="basePackage" value="com.pinyougou.mapper"/>-->
-<!--    </bean>-->
+    <!--    &lt;!&ndash; 扫描 mapper &ndash;&gt;-->
+    <!--    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">-->
+    <!--        <property name="basePackage" value="com.pinyougou.mapper"/>-->
+    <!--    </bean>-->
 
     <!-- 配置接口扫描包 -->
 
-<!--    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer"-->
-<!--          p:basePackage="com.pinyougou.mapper"-->
-<!--          p:sqlSessionFactoryBeanName="sqlSessionFactory" />-->
+    <!--    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer"-->
+    <!--          p:basePackage="com.pinyougou.mapper"-->
+    <!--          p:sqlSessionFactoryBeanName="sqlSessionFactory" />-->
 
 
     <!--集成通用Mapper-->

@@ -5,6 +5,7 @@ import com.github.pagehelper.PageInfo;
 import com.pinyougou.http.Result;
 import com.pinyougou.model.Goods;
 import com.pinyougou.model.Item;
+import com.pinyougou.page.service.ItemPageService;
 import com.pinyougou.search.service.ItemSearchService;
 import com.pinyougou.sellergoods.service.GoodsService;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +21,9 @@ public class GoodsController {
 
     @Reference
     private ItemSearchService itemSearchService;
+
+    @Reference
+    private ItemPageService itemPageService;
 
     /**
      * 审核操作
@@ -39,6 +43,10 @@ public class GoodsController {
                     List<Item> items = goodsService.getByGoodsIds(ids, status);
                     //批量导入索引库
                     itemSearchService.importList(items);
+                    for (Long id : ids) {
+                        //审核通过，生成静态页
+                        itemPageService.buildHtml(id);
+                    }
                 }
                 return new Result(true);
             }

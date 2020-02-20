@@ -20,7 +20,7 @@ public class SolrImportTest {
     /**
      * 数据批量导入
      */
-    @Test
+    //@Test
     public void batchAdd() {
         solrUtil.batchAdd();
     }
