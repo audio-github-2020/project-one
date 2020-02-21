@@ -14,6 +14,10 @@
         http://www.springframework.org/schema/aop
         http://www.springframework.org/schema/aop/spring-aop.xsd">
 
+
+    <!--因为通过ActiveMq提供服务,所以这里到单独添加包扫描-->
+    <context:component-scan base-package="com.pinyougou.page"/>
+
     <!-- the transactional advice (what 'happens'; see the <aop:advisor/> bean
        below) 事务传播特性配置 -->
 <!--    <tx:advice id="txAdvice" transaction-manager="txManager">-->
@@ -61,5 +65,8 @@
 
     <!--引入其他配置配置-->
     <import resource="spring-mybatis.xml" />
-    <import resource="spring-dubbo.xml" />
+    <import resource="spring-mq.xml" />
+
+    <!--因为通过ActiveMq提供服务，所以不需要Dubbo了-->
+    <!--    <import resource="spring-dubbo.xml" />-->
 </beans>

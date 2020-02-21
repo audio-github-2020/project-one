@@ -8,4 +8,10 @@ public interface ItemPageService {
      * @return
      */
     Boolean buildHtml(Long goodsId) throws Exception;
+
+    /**
+     * 根据Id删除静态页
+     * @param id
+     */
+    void deleteHtml(Long id);
 }

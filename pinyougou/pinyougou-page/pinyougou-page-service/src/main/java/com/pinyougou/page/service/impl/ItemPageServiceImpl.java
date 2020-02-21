@@ -1,6 +1,5 @@
 package com.pinyougou.page.service.impl;
 
-import com.alibaba.dubbo.config.annotation.Service;
 import com.pinyougou.mapper.GoodsDescMapper;
 import com.pinyougou.mapper.GoodsMapper;
 import com.pinyougou.mapper.ItemMapper;
@@ -12,13 +11,11 @@ import freemarker.template.Configuration;
 import freemarker.template.Template;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 import org.springframework.ui.freemarker.FreeMarkerConfigurationFactoryBean;
 import tk.mybatis.mapper.entity.Example;
 
-import java.io.BufferedWriter;
-import java.io.FileOutputStream;
-import java.io.OutputStreamWriter;
-import java.io.Writer;
+import java.io.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -96,5 +93,18 @@ public class ItemPageServiceImpl implements ItemPageService {
         example.orderBy("isDefault").desc();
 
         return itemMapper.selectByExample(example);
+    }
+
+    /**
+     * 根据Id删除静态页
+     * @param id
+     */
+    @Override
+    public void deleteHtml(Long id) {
+        File file = new File(HTML_PATH + id + HTML_SUFFIX);
+        if(file.exists()){
+            //文件存在则删除
+            file.delete();
+        }
     }
 }

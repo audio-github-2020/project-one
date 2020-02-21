@@ -45,4 +45,7 @@
     <!--  加载配置文件sys_config文件  -->
     <context:property-placeholder location="classpath:config/sys_config.properties"/>
 
+    <!--引入spring-mq.xml-->
+    <import resource="spring-mq.xml"/>
+
 </beans>

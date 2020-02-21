@@ -29,4 +29,5 @@
     </bean>
     <!--  引入redis配置  -->
     <import resource="spring-redis.xml"/>
+    <import resource="spring-mq.xml"/>
 </beans>

@@ -22,6 +22,16 @@ public class SolrTest {
     private SolrTemplate solrTemplate;
 
     /**
+     * 删除所有
+     */
+    //@Test
+    public void testDeleteAll(){
+        SimpleQuery query = new SimpleQuery("*:*");//相当于把id:1变成都不指定具体值
+        solrTemplate.delete(query);
+        solrTemplate.commit();
+    }
+
+    /**
      * 增加一个
      */
     //@Test
@@ -77,15 +87,7 @@ public class SolrTest {
         solrTemplate.commit();
     }
 
-    /**
-     * 删除所有
-     */
-    //@Test
-    public void testDeleteAll(){
-        SimpleQuery query = new SimpleQuery("*:*");//相当于把id:1变成都不指定具体值
-        solrTemplate.delete(query);
-        solrTemplate.commit();
-    }
+
 
     /**
      * 分页查询

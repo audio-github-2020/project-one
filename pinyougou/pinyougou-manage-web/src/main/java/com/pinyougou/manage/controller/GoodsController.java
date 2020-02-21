@@ -3,11 +3,12 @@ package com.pinyougou.manage.controller;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.github.pagehelper.PageInfo;
 import com.pinyougou.http.Result;
+import com.pinyougou.manage.service.MessageSender;
 import com.pinyougou.model.Goods;
 import com.pinyougou.model.Item;
-import com.pinyougou.page.service.ItemPageService;
-import com.pinyougou.search.service.ItemSearchService;
+import com.pinyougou.mq.MessageInfo;
 import com.pinyougou.sellergoods.service.GoodsService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,11 +20,16 @@ public class GoodsController {
     @Reference
     private GoodsService goodsService;
 
+    @Autowired
+    private MessageSender messageSender;
+
+    /**因为解耦，不需要注入这两个类了
     @Reference
     private ItemSearchService itemSearchService;
-
     @Reference
     private ItemPageService itemPageService;
+    */
+
 
     /**
      * 审核操作
@@ -41,12 +47,22 @@ public class GoodsController {
                 if (status.equals("1")) {
                     //根据GoodsIds查询Items
                     List<Item> items = goodsService.getByGoodsIds(ids, status);
+
+                    /**因为解耦，所以这两部分内容就不需要了
                     //批量导入索引库
                     itemSearchService.importList(items);
                     for (Long id : ids) {
                         //审核通过，生成静态页
                         itemPageService.buildHtml(id);
                     }
+                    */
+
+                    //解耦之后直接封装信息然后发送即可
+                    MessageInfo messageInfo = new MessageInfo(MessageInfo.METHOD_UPDATE, items);
+
+                    //调用消息发送方法
+                    messageSender.sendObjectMessage(messageInfo);
+
                 }
                 return new Result(true);
             }
@@ -56,6 +72,7 @@ public class GoodsController {
         return new Result(false, "审核失败");
     }//
 //
+
     /***
      * 根据ID批量删除
      * @param ids
@@ -67,8 +84,16 @@ public class GoodsController {
             //根据ID删除数据
             int dcount = goodsService.deleteByIds(ids);
             if (dcount > 0) {
+                /**因为解耦，所以这两部分内容就不需要了
                 //批量导入索引库
                 itemSearchService.deleteByGoodsIds(ids);
+                */
+
+                //发送消息到消息队列
+                MessageInfo messageInfo = new MessageInfo(MessageInfo.METHOD_DELETE, ids);
+
+                //发送消息
+                messageSender.sendObjectMessage(messageInfo);
 
                 return new Result(true, "删除成功");
             }
