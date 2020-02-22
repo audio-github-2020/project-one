@@ -9,12 +9,12 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>pinyougou-content</artifactId>
+    <artifactId>pinyougou-user</artifactId>
     <packaging>pom</packaging>
 
     <modules>
-        <module>pinyougou-content-interface</module>
-        <module>pinyougou-content-service</module>
+        <module>pinyougou-user-interface</module>
+        <module>pinyougou-user-service</module>
     </modules>
 
     <properties>

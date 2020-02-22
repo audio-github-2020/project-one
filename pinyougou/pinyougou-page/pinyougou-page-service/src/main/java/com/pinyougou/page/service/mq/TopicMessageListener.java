@@ -23,18 +23,14 @@ public class TopicMessageListener implements MessageListener {
         if (message instanceof ObjectMessage) {
             //强转
             ObjectMessage objectMessage = (ObjectMessage) message;
-
             //获取内容
             try {
                 MessageInfo messageInfo = (MessageInfo) objectMessage.getObject();
-
                 //判断操作类型
                 if (messageInfo.getMethod() == MessageInfo.METHOD_UPDATE) {
                     List<Item> items = (List<Item>) messageInfo.getContext();
-
                     //获取所有GoodsId，并去除重复
                     Set<Long> ids = getGoodsIds(items);
-
                     //循环创建静态页
                     for (Long id : ids) {
                         itemPageService.buildHtml(id);
@@ -42,15 +38,12 @@ public class TopicMessageListener implements MessageListener {
                 } else if (messageInfo.getMethod() == MessageInfo.METHOD_DELETE) {
                     //获取商品id，循环删除
                     List<Long> ids = (List<Long>) messageInfo.getContext();
-
                     //删除操作
                     for (Long id : ids) {
                         itemPageService.deleteHtml(id);
                     }
-
                     //获取ID，删除静态页
                 }
-
             } catch (Exception e) {
                 e.printStackTrace();
             }

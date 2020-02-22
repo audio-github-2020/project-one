@@ -14,7 +14,7 @@ public class SpringConsumerTest {
     /**
      * 只需要运行程序，保证主线程不挂即可
      */
-    @Test
+    //@Test
     public void testSleep() throws IOException {
         System.in.read();
 

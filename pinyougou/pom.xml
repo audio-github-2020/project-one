@@ -16,11 +16,14 @@
         <module>pinyougou-manage-web</module>
         <module>pinyougou-content</module>
         <module>pinyougou-portal-web</module>
+        <module>pinyougou-shop-web</module>
         <module>pinyougou-solr-util</module>
         <module>pinyougou-search</module>
         <module>pinyougou-search-web</module>
         <module>freemarker-demo</module>
         <module>pinyougou-page</module>
+        <module>pinyougou-user</module>
+        <module>pinyougou-user-web</module>
     </modules>
 
     <!-- 集中定义依赖版本号 -->
@@ -71,7 +74,7 @@
 
     <dependencyManagement>
         <dependencies>
-            <!--阿里大鱼-->
+            <!--阿里大于-->
             <dependency>
                 <groupId>com.aliyun</groupId>
                 <artifactId>aliyun-java-sdk-dysmsapi</artifactId>

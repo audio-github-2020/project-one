@@ -2,7 +2,6 @@ package com.itheima.test;
 
 import com.itheima.domain.User;
 import com.itheima.mq.spring.MessageProducer;
-import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -23,7 +22,7 @@ public class SpringProducerTest {
      *
      * 文本消息测试
      */
-    @Test
+    //@Test
     public void textSendTextMessage(){
         messageProducer.sendTextMessage("Hello SpringProducer Test!"+Math.random());
     }
@@ -31,7 +30,7 @@ public class SpringProducerTest {
     /**
      * Map消息测试
      */
-    @Test
+    //@Test
     public void testSendMapMessage(){
         Map<String,String> dataMap=new HashMap<String, String>();
         dataMap.put("user","white");
@@ -42,7 +41,7 @@ public class SpringProducerTest {
     /**
      * Object消息测试
      */
-    @Test
+    //@Test
     public void testSendObjectMessage(){
         User user = new User(123, "BROWN"+Math.random(), new Date());
         messageProducer.sendObjectMessage(user);
