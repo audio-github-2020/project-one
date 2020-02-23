@@ -5,9 +5,8 @@ import com.pinyougou.http.Result;
 import com.pinyougou.model.SpecificationOption;
 import com.pinyougou.sellergoods.service.SpecificationOptionService;
 import org.springframework.web.bind.annotation.*;
-import java.util.HashMap;
+
 import java.util.List;
-import java.util.Map;
 @RestController
 @RequestMapping(value = "/specificationOption")
 public class SpecificationOptionController {

@@ -20,6 +20,7 @@ import java.util.Map;
 @Service
 public class UserServiceImpl implements UserService {
 
+
     @Autowired
     private UserMapper userMapper;
 
@@ -60,6 +61,18 @@ public class UserServiceImpl implements UserService {
         User user = new User();
         user.setUsername(username);
         return userMapper.selectCount(user);
+    }
+
+    /**
+     * 根据用户名查询用户
+     * @param username
+     * @return
+     */
+    @Override
+    public User getUserInfoByUserName(String username) {
+        User user = new User();
+        user.setUsername(username);
+        return userMapper.selectOne(user);
     }
 
     /***

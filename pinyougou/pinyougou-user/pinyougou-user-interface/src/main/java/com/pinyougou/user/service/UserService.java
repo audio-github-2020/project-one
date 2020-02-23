@@ -4,6 +4,12 @@ import com.pinyougou.model.User;
 
 public interface UserService {
 
+    /**
+     * 查询用户信息
+     * @param username
+     * @return
+     */
+    User getUserInfoByUserName(String username);
 
     /***
      * 增加User信息
