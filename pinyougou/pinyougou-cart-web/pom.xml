@@ -8,13 +8,13 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>pinyougou-user-web</artifactId>
+    <artifactId>pinyougou-cart-web</artifactId>
     <packaging>war</packaging>
 
     <dependencies>
         <!--依赖interface-->
         <dependency>
-            <artifactId>pinyougou-user-interface</artifactId>
+            <artifactId>pinyougou-cart-interface</artifactId>
             <groupId>com.pinyougou</groupId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
@@ -56,7 +56,6 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
         </dependency>
-
 
         <!-- Apache工具组件 -->
         <dependency>
@@ -111,17 +110,11 @@
             <version>2.5</version>
             <scope>provided</scope>
         </dependency>
-
-        <!-- Test dependencies -->
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <scope>test</scope>
-        </dependency>
     </dependencies>
 
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     </properties>
 </project>

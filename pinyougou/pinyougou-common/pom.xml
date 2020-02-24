@@ -12,23 +12,34 @@
     <artifactId>pinyougou-common</artifactId>
 
     <dependencies>
-        <!--FastDFS-->
+        <!--fastDFS-->
         <dependency>
             <groupId>org.csource.fastdfs</groupId>
             <artifactId>fastdfs</artifactId>
         </dependency>
-        <!-- redis 缓存 -->
+
+
+        <!-- 缓存 -->
         <dependency>
             <groupId>redis.clients</groupId>
             <artifactId>jedis</artifactId>
         </dependency>
         <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-pool2</artifactId>
+        </dependency>
+
+        <!--spring-data-redis-->
+        <dependency>
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-redis</artifactId>
         </dependency>
+
+        <!--servlet-->
         <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-pool2</artifactId>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 

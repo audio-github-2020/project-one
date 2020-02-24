@@ -11,7 +11,6 @@
     <artifactId>pinyougou-portal-web</artifactId>
     <packaging>war</packaging>
 
-
     <dependencies>
         <!--依赖interface-->
         <dependency>
@@ -99,21 +98,9 @@
             <scope>provided</scope>
         </dependency>
     </dependencies>
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
-    <build>
-        <plugins>
-            <!-- tomcat 插件 -->
-            <plugin>
-                <groupId>org.apache.tomcat.maven</groupId>
-                <artifactId>tomcat7-maven-plugin</artifactId>
-                <configuration>
-                    <path>/</path>
-                    <port>9004</port>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
 
 </project>

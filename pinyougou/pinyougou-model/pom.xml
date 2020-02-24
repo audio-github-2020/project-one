@@ -35,8 +35,8 @@
         <dependency>
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-solr</artifactId>
+            <scope>provided</scope>
         </dependency>
-
     </dependencies>
 
 

@@ -236,4 +236,20 @@ public class OrderItem implements Serializable {
     public void setSellerId(String sellerId) {
         this.sellerId = sellerId == null ? null : sellerId.trim();
     }
+
+    @Override
+    public String toString() {
+        return "OrderItem{" +
+                "id=" + id +
+                ", itemId=" + itemId +
+                ", goodsId=" + goodsId +
+                ", orderId=" + orderId +
+                ", title='" + title + '\'' +
+                ", price=" + price +
+                ", num=" + num +
+                ", totalFee=" + totalFee +
+                ", picPath='" + picPath + '\'' +
+                ", sellerId='" + sellerId + '\'' +
+                '}';
+    }
 }

@@ -9,9 +9,8 @@
     <version>1.0-SNAPSHOT</version>
     <modelVersion>4.0.0</modelVersion>
 
-
     <dependencies>
-        <!-- 缓存 -->
+        <!-- 缓存 Redis -->
         <dependency>
             <groupId>redis.clients</groupId>
             <artifactId>jedis</artifactId>
