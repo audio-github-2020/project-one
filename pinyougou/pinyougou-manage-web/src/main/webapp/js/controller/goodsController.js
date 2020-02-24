@@ -9,7 +9,7 @@ app.controller("goodsController", function ($scope, $http, $controller, goodsSer
 
 
     //定义状态集合     0         1          2         3
-    $scope.status = ["未审核", "审核通过", "驳回", "关闭"];
+    $scope.status = ["未审核", "审核通过", "审核不通过", "关闭"];
 
     //商品分类集合,以map形式储存
     $scope.itemCatShowList = {};

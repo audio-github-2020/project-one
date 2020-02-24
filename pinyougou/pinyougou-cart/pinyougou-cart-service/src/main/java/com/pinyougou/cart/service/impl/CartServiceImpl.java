@@ -7,6 +7,7 @@ import com.pinyougou.model.Cart;
 import com.pinyougou.model.Item;
 import com.pinyougou.model.OrderItem;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -18,12 +19,30 @@ public class CartServiceImpl implements CartService {
     @Autowired
     private ItemMapper itemMapper;
 
+    @Autowired
+    private RedisTemplate redisTemplate;
+
+    /**
+     * 合并购物车
+     */
+    @Override
+    public List<Cart> mergeList(List<Cart> rediscarts,List<Cart> cookiecarts ){
+        for (Cart cart : cookiecarts) {
+            List<OrderItem> orderItemList = cart.getOrderItemList();
+            for (OrderItem orderItem : orderItemList) {
+                Long itemId = orderItem.getItemId();
+                Integer num = orderItem.getNum();
+                rediscarts=add(rediscarts,itemId,num);
+            }
+        }
+        return rediscarts;
+    }
+
     @Override
     public List<Cart> add(List<Cart> carts, Long itemId, Integer num) {
-        if(carts==null){
-            carts=new ArrayList<Cart>();
+        if (carts == null) {
+            carts = new ArrayList<Cart>();
         }
-
 
         //查询商品信息
         Item item = itemMapper.selectByPrimaryKey(itemId);
@@ -46,6 +65,17 @@ public class CartServiceImpl implements CartService {
                 //价格重算
                 double totalFee = orderItem.getPrice().doubleValue() * orderItem.getNum();
                 orderItem.setTotalFee(new BigDecimal(totalFee));
+
+                //如果商品购买数量<=0，应该从购物车中移除本商品
+                if (orderItem.getNum() <= 0) {
+                    cart.getOrderItemList().remove(orderItem);
+                }
+
+                //如果该商家购物车商品为空，删除本商家对应的购物车
+                if (cart.getOrderItemList().size() <= 0) {
+                    carts.remove(cart);
+                }
+
             } else {
                 //如果不存在，则创建新的OrderItem商品明细，添加到商家购物车中
                 orderItem = createOrderItem(item, num);
@@ -116,5 +146,25 @@ public class CartServiceImpl implements CartService {
             }
         }
         return null;
+    }
+
+    /**
+     * 将数据存入reids
+     * @param username
+     * @param carts
+     */
+    @Override
+    public void addGoodsToRedis(String username, List<Cart> carts) {
+        redisTemplate.boundHashOps("CartList40").put(username, carts);
+    }
+
+    /**
+     * 从redis中取数据
+     * @param username
+     * @return
+     */
+    @Override
+    public List<Cart> findCartListFromRedis(String username) {
+        return (List<Cart>) redisTemplate.boundHashOps("CartList40").get(username);
     }
 }
