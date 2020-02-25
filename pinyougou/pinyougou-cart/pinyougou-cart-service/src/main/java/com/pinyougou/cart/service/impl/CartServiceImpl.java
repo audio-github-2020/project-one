@@ -63,6 +63,7 @@ public class CartServiceImpl implements CartService {
                 orderItem.setNum(orderItem.getNum() + num);
 
                 //价格重算
+                //Java在java.math包中提供的API类BigDecimal，用来对超过16位有效位的数进行精确的运算。双精度浮点型变量double可以处理16位有效数。
                 double totalFee = orderItem.getPrice().doubleValue() * orderItem.getNum();
                 orderItem.setTotalFee(new BigDecimal(totalFee));
 
@@ -111,6 +112,7 @@ public class CartServiceImpl implements CartService {
         orderItem.setTitle(item.getTitle());
         orderItem.setPrice(item.getPrice());
         orderItem.setNum(num);
+        //Java在java.math包中提供的API类BigDecimal，用来对超过16位有效位的数进行精确的运算。双精度浮点型变量double可以处理16位有效数。
         double totalFee = orderItem.getNum() * orderItem.getPrice().doubleValue();
         orderItem.setTotalFee(new BigDecimal(totalFee));
         return orderItem;

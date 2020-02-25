@@ -1,10 +1,23 @@
-app.controller('itemController',function ($scope) {
+app.controller('itemController',function ($scope,$http) {
 
     $scope.num =1;
 
+
     //加入购物车
     $scope.addCart=function () {
-        alert("购买的Item的ID是："+$scope.sku.id);
+        //alert("购买的Item的ID是："+$scope.sku.id);
+        if($scope.sku.id>0){
+            //执行加入购物车操作
+            $http.get('http://localhost:9012/cart/add.shtml?itemid='+$scope.sku.id+'&num='+$scope.num,{'withCredentials':true}).success(function (response) {
+                if(response.success){
+                    //加入购物车成功，跳转到购物车列表
+                    alert("恭喜你增加购物车成功！")
+                    location.href='http://localhost:9012/cart.html';
+                }else{
+                    alert(response.message)
+                }
+            })
+        }
     }
 
     //购买数量加减

@@ -8,6 +8,7 @@ import com.pinyougou.model.Cart;
 import com.pinyougou.util.CookieUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -68,8 +69,18 @@ public class CartController {
      * @param num
      * @return
      */
+
+    //注解实现允许跨域请求本域名的域名
+    @CrossOrigin(origins = "http://localhost:9007",allowCredentials = "true")
     @RequestMapping(value = "/add")
     public Result add(Long itemid, Integer num) {
+        //解决跨域问题
+
+        //允许跨域请求本域名的域名，星号表示所有域名
+        //response.setHeader("Access-Control-Allow-Origin", "http://localhost:9007");
+        //是否允许跨域请求撒纷纷cookie数据
+        //response.setHeader("Access-Control-Allow-Credentials", "true");
+
         //获取匿名账号
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         //调用查询购物车集合
