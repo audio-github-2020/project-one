@@ -1,6 +1,7 @@
 package com.pinyougou.order;
 
 import com.pinyougou.model.Order;
+import com.pinyougou.model.PayLog;
 
 /***
  *
@@ -17,5 +18,14 @@ public interface OrderService {
      * @return
      */
     int add(Order order);
+
+    /***
+     * 修改订单装填和支付日志状态
+     * @param username
+     * @param transaction_id
+     */
+    void updatePayStatus(String username, String transaction_id);
+
+    PayLog getPayLogByUserId(String username);
 
 }
