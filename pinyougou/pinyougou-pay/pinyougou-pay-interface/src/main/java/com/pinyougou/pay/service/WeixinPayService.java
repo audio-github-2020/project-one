@@ -14,4 +14,10 @@ public interface WeixinPayService {
      */
     Map<String,String> queryPayStatus(String out_trade_no);
 
+    /**
+     * 关闭订单
+     * @param tradeoutno
+     * @return
+     */
+    Map<String, String> closePay(String tradeoutno);
 }

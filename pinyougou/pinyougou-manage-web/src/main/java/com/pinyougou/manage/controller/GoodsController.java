@@ -178,6 +178,7 @@ public class GoodsController {
      */
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public List<Goods> list() {
-        return goodsService.getAll();
+        List<Goods> list=  goodsService.getAll();
+        return list;
     }
 }

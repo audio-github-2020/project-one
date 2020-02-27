@@ -28,6 +28,8 @@
         <module>pinyougou-cart</module>
         <module>pinyougou-order</module>
         <module>pinyougou-pay</module>
+        <module>pinyougou-seckill</module>
+        <module>pinyougou-seckill-web</module>
     </modules>
 
     <!-- 集中定义依赖版本号 -->
@@ -201,12 +203,6 @@
                 <groupId>org.aspectj</groupId>
                 <artifactId>aspectjweaver</artifactId>
                 <version>${aspectj.weaver}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-jms</artifactId>
-                <version>${spring.version}</version>
             </dependency>
 
             <!-- Apache工具组件 -->
