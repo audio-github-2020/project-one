@@ -16,7 +16,7 @@ import java.util.Map;
  *
  ****/
 @Component
-public class MessageListener {
+public class JmsMessageListener {
 
 
     @Autowired
@@ -32,7 +32,7 @@ public class MessageListener {
      */
     @JmsListener(destination = "message-list")
     public void readMessage(Map<String,String> dataMap) throws ClientException {
-        //调用阿里大鱼实现短信发送
+        //调用阿里大于实现短信发送
         SendSmsResponse response = messageSender.sendSms(dataMap.get("signName"),
                                 dataMap.get("templateCode"),
                                 dataMap.get("mobile"),

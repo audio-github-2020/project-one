@@ -111,7 +111,7 @@ public class UserServiceImpl implements UserService {
         redisTemplate.boundHashOps("MobileInfo").put(phone, code);
 
         //为了变成JSON数据，需要将code存入到Map中，然后转成JOSN
-        Map<String, String> dataMap = new HashMap<String, String>();
+        Map<String, String> dataMap = new HashMap<>();
         dataMap.put("code", code);
         String json = JSON.toJSONString(dataMap);
         sendMessage(phone, json);
@@ -134,7 +134,7 @@ public class UserServiceImpl implements UserService {
                 mapMessage.setString("signName", signName);
                 mapMessage.setString("templateCode", templateCode);
                 mapMessage.setString("mobile", phone);
-                mapMessage.setString("param", json);//这个地方要放JSON类型数据，所以调用前要转换
+                mapMessage.setString("param", json);//这个地方要放JSON类型数据，所以调用前要转换，这里面放的是验证码
                 return mapMessage;
             }
         });

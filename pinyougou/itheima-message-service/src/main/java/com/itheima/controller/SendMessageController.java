@@ -36,11 +36,8 @@ public class SendMessageController {
         dataMap.put("param","{\"code\":\""+(int)(Math.random()*10000)+"\"}");
 //        dataMap.put("param","{\"code\":\"520520\"}");
 
-
         template.convertAndSend("message-list",dataMap);
 
         return "success";
     }
-
-
 }

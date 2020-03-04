@@ -23,6 +23,7 @@ public class UserController {
     @RequestMapping(value = "/create/code")
     public Result crateCode(String phone) {
         try {
+
             //创建验证码
             userService.createCode(phone);
             return new Result(true, "发送验证码成功！");

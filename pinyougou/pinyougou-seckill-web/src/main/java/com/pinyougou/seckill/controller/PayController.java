@@ -82,7 +82,7 @@ public class PayController {
             Thread.sleep(3000);
             count++;
             if(count>10){
-                //如果订单在30分钟以内(30秒)未支付，则取消订单
+                //如果订单在30秒以内未支付，则取消订单
                 //先关闭腾讯微信支付订单
                 Map<String,String> closeResult = weixinPayService.closePay(tradeoutno);
 
