@@ -7,7 +7,7 @@ public interface SeckillOrderService {
      * 增加订单
      * @param id
      */
-    void add(String username,Long id);
+    void add(String username,Long id) throws InterruptedException;
 
     /***
      * 根据用户名查询订单信息

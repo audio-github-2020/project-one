@@ -7,10 +7,13 @@ import com.pinyougou.model.SeckillGoods;
 import com.pinyougou.model.SeckillOrder;
 import com.pinyougou.seckill.service.SeckillOrderService;
 import com.pinyougou.util.IdWorker;
+import org.redisson.Redisson;
+import org.redisson.api.RLock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 @Service
 public class SeckillOrderServiceImpl implements SeckillOrderService {
@@ -27,56 +30,60 @@ public class SeckillOrderServiceImpl implements SeckillOrderService {
     @Autowired
     private SeckillOrderMapper seckillOrderMapper;
 
+    @Autowired
+    private Redisson redisson;
+
     @Override
-    public void add(String username, Long id) {
+    public void add(String username, Long id) throws InterruptedException {
 
         //判断用户是否已经存在订单未支付
-        /*Object seckillOrder = redisTemplate.boundHashOps("SeckillOrder").get(username);
+        Object seckillOrder = redisTemplate.boundHashOps("SeckillOrder").get(username);
         if(seckillOrder!=null){
             throw new RuntimeException("存在未支付订单！");
-        }*/
-        //从队列中获取一个商品ID
-        Object goodid = redisTemplate.boundListOps("SeckillGoods_Id_" + id).rightPop();
-        if (goodid == null) {
-            throw new RuntimeException("已售罄");
         }
 
+
+        RLock lock = redisson.getLock("lockKey");
         try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+            lock.tryLock(30, TimeUnit.SECONDS);
+            //从队列中获取一个商品ID
+            Object goodid = redisTemplate.boundListOps("SeckillGoods_Id_" + id).rightPop();
+            if (goodid == null) {
+                throw new RuntimeException("已售罄");
+            }
+            //根据id获取商品信息
+            SeckillGoods good = (SeckillGoods) redisTemplate.boundHashOps("SeckillGoods").get(id);
+            System.out.println("用户：" + username + ",检测有" + good.getStockCount());
+
+            //根据商品信息创建订单
+            SeckillOrder order = new SeckillOrder();
+            order.setId(idWorker.nextId());
+            order.setSeckillId(id);
+            order.setMoney(good.getCostPrice());
+            order.setUserId(username);
+            order.setSellerId(good.getSellerId());
+            order.setCreateTime(new Date());
+            order.setStatus("0");
+
+            //将订单存入redis中
+            redisTemplate.boundHashOps("SeckillOrder").put(username, order);
+
+            //库存削减，一旦商品售罄，则需要将数据同步到数据库中，并且移除redis中的记录
+            good.setStockCount(good.getStockCount() - 1);
+
+            //如果没有售罄，修改redis中的数据即可
+            if (good.getStockCount() <= 0) {
+                //将数据同步到数据库
+                seckillGoodsMapper.updateByPrimaryKeySelective(good);
+                //移除redis中的记录
+                redisTemplate.boundHashOps("SeckillGoods").delete(id);
+            } else {
+                redisTemplate.boundHashOps("SeckillGoods").put(id, good);
+            }
+        } finally {
+            lock.unlock();
         }
 
-        //根据id获取商品信息
-        SeckillGoods good = (SeckillGoods) redisTemplate.boundHashOps("SeckillGoods").get(id);
-        System.out.println("用户：" + username + ",检测有" + good.getStockCount());
-
-        //根据商品信息创建订单
-        SeckillOrder order = new SeckillOrder();
-        order.setId(idWorker.nextId());
-        order.setSeckillId(id);
-        order.setMoney(good.getCostPrice());
-        order.setUserId(username);
-        order.setSellerId(good.getSellerId());
-        order.setCreateTime(new Date());
-        order.setStatus("0");
-
-        //将订单存入redis中
-        redisTemplate.boundHashOps("SeckillOrder").put(username, order);
-
-        //库存削减，一旦商品售罄，则需要将数据同步到数据库中，并且移除redis中的记录
-        good.setStockCount(good.getStockCount() - 1);
-
-        //如果没有售罄，修改redis中的数据即可
-        if (good.getStockCount() <= 0) {
-            //将数据同步到数据库
-            seckillGoodsMapper.updateByPrimaryKeySelective(good);
-
-            //移除redis中的记录
-            redisTemplate.boundHashOps("SeckillGoods").delete(id);
-        } else {
-            redisTemplate.boundHashOps("SeckillGoods").put(id, good);
-        }
     }
 
     /***

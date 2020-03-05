@@ -60,6 +60,7 @@
     <import resource="spring-mybatis.xml" />
     <import resource="spring-dubbo.xml" />
     <import resource="spring-redis.xml" />
+    <import resource="spring-redisson.xml" />
 
     <!--idwork-->
     <bean class="com.pinyougou.util.IdWorker" id="idWorker">

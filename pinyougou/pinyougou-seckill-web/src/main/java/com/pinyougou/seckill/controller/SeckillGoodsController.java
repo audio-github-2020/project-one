@@ -31,7 +31,11 @@ public class SeckillGoodsController {
         return  seckillGoodsService.list();
     }
 
-
+    /**
+     * 根据id查询具体商品的信息
+     * @param id
+     * @return
+     */
     @RequestMapping(value="/one")
     public SeckillGoods getOne(Long id){
         return seckillGoodsService.getOne(id);

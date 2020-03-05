@@ -2,10 +2,13 @@ app.service('seckillGoodsService',function ($http) {
 
     //下单
     this.add=function (id) {
+        // Jmeter测试版
+        // return $http.get('/seckill/order/add.shtml?id='+id+'&username='+username);
         return $http.get('/seckill/order/add.shtml?id='+id);
+
     }
 
-    //根据DI查询商品详情
+    //根据ID查询商品详情
     this.getOne=function (id) {
         return $http.get('/seckill/goods/one.shtml?id='+id);
     }

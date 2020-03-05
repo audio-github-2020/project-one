@@ -17,11 +17,13 @@ public class SeckillOrderController {
     @RequestMapping(value = "/add")
     public Result add(Long id) {
         try {
+
             String username = SecurityContextHolder.getContext().getAuthentication().getName();
 
             if(username.equals("anonymousUser")){
                 return new Result(false,"403");
             }
+
 
             seckillOrderService.add(username,id);
             return new Result(true,"下单成功");
