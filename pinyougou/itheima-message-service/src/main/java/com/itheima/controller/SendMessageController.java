@@ -8,13 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.HashMap;
 import java.util.Map;
 
-/***
- *
- * @Author:shenkunlin
- * @Description:itheima
- * @date: 2018/9/20 16:15
- *
- ****/
+
 @RestController
 @RequestMapping(value = "/message")
 public class SendMessageController {

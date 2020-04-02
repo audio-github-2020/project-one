@@ -8,16 +8,9 @@ import org.springframework.stereotype.Component;
 
 import java.util.Map;
 
-/***
- *
- * @Author:shenkunlin
- * @Description:itheima
- * @date: 2018/9/20 16:04
- *
- ****/
+
 @Component
 public class JmsMessageListener {
-
 
     @Autowired
     private MessageSender messageSender;

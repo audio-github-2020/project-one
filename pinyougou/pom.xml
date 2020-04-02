@@ -30,6 +30,7 @@
         <module>pinyougou-pay</module>
         <module>pinyougou-seckill</module>
         <module>pinyougou-seckill-web</module>
+        <module>itheima-message-rabbitmq-service</module>
     </modules>
 
     <!-- 集中定义依赖版本号 -->
@@ -65,7 +66,8 @@
         <freemarker.version>2.3.23</freemarker.version>
         <activemq.core.version>5.7.0</activemq.core.version>
         <activemq.version>5.15.3</activemq.version>
-        <aliyun.java.sdk.dysmsapi.version>1.0.0-SNAPSHOT</aliyun.java.sdk.dysmsapi.version>
+        <aliyun.java.sdk.dysmsapi.version>1.0.0</aliyun.java.sdk.dysmsapi.version>
+        <aliyun-java-sdk-core.version>3.2.8</aliyun-java-sdk-core.version>
         <cas.client.core.version>3.3.3</cas.client.core.version>
         <servlet.api.version>2.5</servlet.api.version>
         <fastjson.version>1.2.47</fastjson.version>
@@ -78,11 +80,14 @@
         <wxpay.version>0.0.3</wxpay.version>
         <httpclient.version>4.5.3</httpclient.version>
         <redisson.version>3.11.4</redisson.version>
+        <spring-rabbit.version>1.4.0.RELEASE</spring-rabbit.version>
+        <amqp-client.version>3.4.1</amqp-client.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
 
+            <!--阿里大于-->
             <dependency>
                 <groupId>com.aliyun</groupId>
                 <artifactId>aliyun-java-sdk-dysmsapi</artifactId>
@@ -92,7 +97,7 @@
             <dependency>
                 <groupId>com.aliyun</groupId>
                 <artifactId>aliyun-java-sdk-core</artifactId>
-                <version>${aliyun-java.sdk.core.version}3.3.1-SNAPSHOT</version>
+                <version>${aliyun-java-sdk-core.version}</version>
             </dependency>
 
             <!--freemarker-->
@@ -443,6 +448,20 @@
                 <artifactId>redisson</artifactId>
                 <version>${redisson.version}</version>
             </dependency>
+
+            <!--RabbitMQ-->
+            <dependency>
+                <groupId>org.springframework.amqp</groupId>
+                <artifactId>spring-rabbit</artifactId>
+                <version>${spring-rabbit.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.rabbitmq</groupId>
+                <artifactId>amqp-client</artifactId>
+                <version>${amqp-client.version}</version>
+            </dependency>
+
 
         </dependencies>
     </dependencyManagement>

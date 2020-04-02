@@ -5,14 +5,15 @@ import com.alibaba.fastjson.JSON;
 import com.pinyougou.mapper.UserMapper;
 import com.pinyougou.model.User;
 import com.pinyougou.user.service.UserService;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.support.AbstractApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.jms.core.JmsTemplate;
-import org.springframework.jms.core.MessageCreator;
 import org.springframework.util.DigestUtils;
 
-import javax.jms.*;
+import javax.jms.JMSException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -20,18 +21,17 @@ import java.util.Map;
 @Service
 public class UserServiceImpl implements UserService {
 
-
     @Autowired
     private UserMapper userMapper;
 
     @Autowired
     private RedisTemplate redisTemplate;
 
-    @Autowired
-    private JmsTemplate jmsTemplate;
+    //@Autowired
+    //private JmsTemplate jmsTemplate;
 
-    @Autowired
-    private Destination destination;
+    //@Autowired
+    //private Destination destination;
 
     @Value("${sign_name}")
     private String signName;
@@ -65,6 +65,7 @@ public class UserServiceImpl implements UserService {
 
     /**
      * 根据用户名查询用户
+     *
      * @param username
      * @return
      */
@@ -114,17 +115,53 @@ public class UserServiceImpl implements UserService {
         Map<String, String> dataMap = new HashMap<>();
         dataMap.put("code", code);
         String json = JSON.toJSONString(dataMap);
-        sendMessage(phone, json);
+
+        //利用Spring-ActiveMQ发送短信
+        //sendMessage(phone, json);
+
+        //利用Spring-RabbitMQ发送短信
+        //sendMessageBySpringRabbitMQ(phone, json);
+
+        //利用Spring-RabbitMQ发送短信
+        sendMessageBySpringBootRabbitMQ(phone, json);
 
     }
 
+    /**
+     * 利用Spring-RabbitMQ完成消息发送
+     *
+     * @param phone
+     * @param json
+     * @throws Exception
+     */
+    public void sendMessageBySpringBootRabbitMQ(String phone, String json) throws Exception {
+        AbstractApplicationContext ctx = new ClassPathXmlApplicationContext(
+                "classpath:spring/spring-rabbitmq.xml");
+        //RabbitMQ模板
+        RabbitTemplate template = ctx.getBean(RabbitTemplate.class);
+
+        //发送消息
+        Map<String, Object> msg = new HashMap<String, Object>();
+        msg.put("type", "1");
+
+        msg.put("signName", signName);
+        msg.put("templateCode", templateCode);
+        msg.put("mobile", phone);
+        msg.put("param", json);//这个地方要放JSON类型数据，所以调用前要转换，这里面放的是验证码
+
+        //简单对列的情况下routingKey即为Queue名
+        template.convertAndSend("q_hello1", JSON.toJSONString(msg));
+
+        ctx.destroy(); //容器销毁
+    }
+
     /***
-     * 消息发送
+     * 利用SpringBoot-ActiveMQ完成消息发送
      * @param phone
      * @param json
      * @throws JMSException
      */
-    public void sendMessage(String phone, String json) throws JMSException {
+    /*public void sendMessage(String phone, String json) throws JMSException {
         //将消息发送给ActiveMQ
         jmsTemplate.send(destination, new MessageCreator() {
             @Override
@@ -138,7 +175,35 @@ public class UserServiceImpl implements UserService {
                 return mapMessage;
             }
         });
+    }*/
+
+    /**
+     * 利用Spring-RabbitMQ完成消息发送
+     *
+     * @param phone
+     * @param json
+     * @throws Exception
+     */
+    public void sendMessageBySpringRabbitMQ(String phone, String json) throws Exception {
+        AbstractApplicationContext ctx = new ClassPathXmlApplicationContext(
+                "classpath:spring/spring-rabbitmq.xml");
+        //RabbitMQ模板
+        RabbitTemplate template = ctx.getBean(RabbitTemplate.class);
+
+        //发送消息
+        Map<String, Object> msg = new HashMap<String, Object>();
+        msg.put("type", "1");
+
+        msg.put("signName", signName);
+        msg.put("templateCode", templateCode);
+        msg.put("mobile", phone);
+        msg.put("param", json);//这个地方要放JSON类型数据，所以调用前要转换，这里面放的是验证码
+
+        template.convertAndSend("type2", JSON.toJSONString(msg));
+
+        ctx.destroy(); //容器销毁
     }
+
 
     /***
      * 增加User信息
