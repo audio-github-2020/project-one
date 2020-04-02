@@ -58,20 +58,7 @@
         </property>
     </bean>
 
-    <!--Jedis连接池配置-->
-    <!--<bean id="poolConfig" class="redis.clients.jedis.JedisPoolConfig">
-        <property name="maxIdle" value="${redis.maxIdle}" />
-        <property name="maxWaitMillis" value="${redis.maxWait}" />
-        <property name="testOnBorrow" value="${redis.testOnBorrow}" />
-    </bean>-->
-
-    <!--
-        Jedis连接工厂对象
-        host-name:redis的IP
-        port:端口号
-        password:密码
-        pool-config-re:连接池信息配置
-     -->
+    <!--连接池和原本的构造参数都不需要了，直接用redisClusterConfiguration作为构造参数即可-->
     <bean id="JedisConnectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
         <constructor-arg name="clusterConfig" ref="redisClusterConfiguration" />
     </bean>

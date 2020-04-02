@@ -6,7 +6,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations="classpath:spring-redis-cluster.xml")//改为spring-redis-cluster.xml用以测试和集群的连接
+@ContextConfiguration(locations="classpath:spring-redis-demo.xml")
 public class ValueTest {
 
     //@Autowired

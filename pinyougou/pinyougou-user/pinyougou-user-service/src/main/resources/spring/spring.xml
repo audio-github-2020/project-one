@@ -62,16 +62,15 @@
 
     <!--引入dao配置-->
     <import resource="spring-mybatis.xml"/>
-    <!--引入reids依赖-->
-<!--    <import resource="spring-redis.xml" />-->
-
     <!--引入reids-cluster依赖-->
     <import resource="spring-redis-cluster.xml"/>
-
     <!--引入dubbo配置-->
     <import resource="spring-dubbo.xml"/>
-    <!--引入mq-->
-    <!--    <import resource="spring-mq.xml" />-->
     <!--引入RabbitMQ-->
     <import resource="spring-rabbitmq.xml"/>
+
+    <!--引入reids依赖-->
+<!--    <import resource="spring-redis.xml" />-->
+    <!--引入mq-->
+    <!--        <import resource="spring-mq.xml" />-->
 </beans>

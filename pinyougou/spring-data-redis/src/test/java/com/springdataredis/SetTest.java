@@ -8,7 +8,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import java.util.Set;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "classpath:spring-redis.xml")
+@ContextConfiguration(locations = "classpath:spring-redis-demo.xml")
 public class SetTest {
     //@Autowired
     private RedisTemplate redisTemplate;
